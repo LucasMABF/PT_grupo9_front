@@ -12,7 +12,7 @@ export default function Perfil() {
       <div className="profile-header">
         <div className="profile-banner"></div>
         <Image height={500} width= {500} src="/profile-picture.webp" alt="Avatar" className="profile-pic"/>
-        <h1 className="bg-slate-800">Jacinto Pinto Aquino Rego</h1>
+        <h1 className="bg-slate-800">João da Silva</h1>
         <p>Ciência da Computação / Dept. Ciência da Computação</p>
         <p>jacinto.pinto.24@cjr.org.br</p>
         <div className="profile-actions">
