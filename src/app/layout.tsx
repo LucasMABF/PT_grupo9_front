@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css"
 import NavBar from "./components/nav"
 import Footer from "./components/footer"
+import LoggedInProvider from "./providers/loggedIn";
 
 export const metadata: Metadata = {
   title: 'Avalie seu professor',
@@ -10,16 +11,18 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: ReadOnly<{
-  children: React.ReactNode
+}: Readonly<{
+  children: React.ReactNode;
 }>) {
   return (
     <html lang="pt-br">
-      <body className="flex flex-col h-screen">
-        <NavBar/>
-        {children}
-        <Footer/>
-      </body>
+      <LoggedInProvider>
+        <body className="flex flex-col h-screen">
+          <NavBar/>
+          {children}
+          <Footer/>
+        </body>
+      </LoggedInProvider>
     </html>
   )
 }

@@ -9,17 +9,16 @@ export default function Home() {
         <h2 className="text-3xl">Recentemente avaliados</h2> 
 
         <section className="flex gap-5 m-2 overflow-x-auto p-1.5">
-          {Array.from({length: 15}).map((_, index) => <CardProfessor />)}
+          {Array.from({length: 15}).map((_, index) => <CardProfessor key={index}/>)}
         </section>
       </div>
 
       <div>
         <h2 className="text-3xl">Todos os professores</h2>
         <section className="flex gap-5 m-2 overflow-x-auto p-1.5">
-          {Array.from({length: 15}).map((_, index) => <CardProfessor />)}
+          {Array.from({length: 15}).map((_, index) => <CardProfessor key={index}/>)}
         </section>
       </div>
-
     </main>
   );
 }
