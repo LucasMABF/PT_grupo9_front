@@ -1,12 +1,13 @@
 import React from "react";
+import Image from "next/image";
+import ProfilePic from "/public/media/profile_pic.svg";
 
 const CardProfessor = () => {
-  // trocar imagem
   // adicionar dados argumento
   return(
-    <div className="bg-color1 p-3 w-40 text-center rounded-lg flex flex-col shrink-0 hover: cursor-pointer">
-      <img className="rounded-xl" src="https://as1.ftcdn.net/v2/jpg/08/05/28/22/1000_F_805282248_LHUxw7t2pnQ7x8lFEsS2IZgK8IGFXePS.jpg"/>
-      <span className=""> Nome </span>
+    <div className="bg-color1 p-3 w-40 text-center rounded-lg flex flex-col shrink-0 hover: cursor-pointer hover:scale-105 duration-100">
+      <Image className="rounded-xl" src={ProfilePic} alt="logo UnB"/>
+      <span className="mt-1"> Nome </span>
       <span> matéria </span>
     </div>
   );
