@@ -14,10 +14,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const password = passwordInput.value.trim();
   
 
-      console.log("Email:", email);
-      console.log("Senha:", password);
-  
 
+      
       if (!email || !password) {
         alert("Por favor, preencha todos os campos.");
       } else {
