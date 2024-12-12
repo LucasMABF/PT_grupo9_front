@@ -4,9 +4,8 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="body font-arial h-screen bg-gray-100 text-gray-800 m-0 p-0">
-      <div className="header w-screen h-12 bg-green-950"></div>
-      <div className="h-auto w-96 m-0 ">
+    <div className="flex justify-center items-center body font-arial h-screen bg-gray-100 text-gray-800 m-0 p-0">
+      <div className="  h-auto w-96 m-0 ">
         <div className="post-comment">
           <div className="w-full m-3 bg-white rounded-md shadow-xs">
             <div className="flex p-2 overflow-hidden">
