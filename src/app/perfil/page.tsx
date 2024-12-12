@@ -1,9 +1,15 @@
 "use client";
 import Image from 'next/image'
+import ModalPerfil from '../components/Modal-perfil';
+import { useState } from 'react';
+
 export default function Perfil() {
 
+  const [showModal, setShowModal] = useState(false);
   return (  
-    
+    <>
+    <ModalPerfil></ModalPerfil>
+
     <div className="body font-arial h-screen bg-gray-100 text-gray-800 m-0 p-0">
     
     {/* cabecalho */}
@@ -63,6 +69,7 @@ export default function Perfil() {
       </div>
     </div>
   </div>
+  </>
   )
 }
 
