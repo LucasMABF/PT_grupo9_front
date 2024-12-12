@@ -6,11 +6,14 @@ import { useState } from 'react';
 export default function Perfil() {
 
   const [showModal, setShowModal] = useState(false);
+
   return (  
     <>
-    <ModalPerfil></ModalPerfil>
-
-    <div className="body font-arial h-screen bg-gray-100 text-gray-800 m-0 p-0">
+    {showModal ? (
+      <ModalPerfil onClose={() => setShowModal(false)}></ModalPerfil>
+    ) : (<div></div>)}
+    
+    <div className="body font-arial bg-gray-100 text-gray-800 m-0 p-0">
     
     {/* cabecalho */}
     <div className="header w-screen h-12 bg-green-950"></div>
@@ -31,7 +34,11 @@ export default function Perfil() {
         <p className="my-2 text-base">jacinto.pinto.24@cjr.org.br</p>
 
         <div className="profile-actions text-white my-4 w-3/5 mx-auto flex justify-around">
-          <button className="edit-btn py-2 px-5 bg-green-700 rounded-lg cursor-pointer hover:bg-green-800">Editar Perfil</button>
+          <button
+            onClick={() => setShowModal(true)} 
+            className="edit-btn py-2 px-5 bg-green-700 rounded-lg cursor-pointer hover:bg-green-800">
+            Editar Perfil
+          </button>
           <button className="delete-btn py-2 px-5 bg-red-600 rounded-lg cursor-pointer hover:bg-red-800">Excluir Perfil</button>
         </div>
       </div>
