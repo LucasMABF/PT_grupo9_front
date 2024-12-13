@@ -1,18 +1,24 @@
 "use client";
 import Image from 'next/image'
 import ModalPerfil from '../components/Modal-perfil';
+import ModalComentario from '../components/Modal-comentario';
 import { useState } from 'react';
 
 export default function Perfil() {
 
-  const [showModal, setShowModal] = useState(false);
+  const [showModalPerfil, setShowModalPerfil] = useState(false);
+  const [showModalComentario, setShowModalComentario] = useState(false);
 
   return (  
     <>
-    {showModal ? (
-      <ModalPerfil onClose={() => setShowModal(false)}></ModalPerfil>
+    {showModalPerfil ? (
+      <ModalPerfil onClose={() => setShowModalPerfil(false)}></ModalPerfil>
     ) : (<div></div>)}
     
+    {showModalComentario ? (
+      <ModalComentario onClose={() => setShowModalComentario(false)}></ModalComentario>
+    ): (<div></div>)}
+
     <div className="body font-arial bg-gray-100 text-gray-800 m-0 p-0">
     
     {/* cabecalho */}
@@ -35,7 +41,7 @@ export default function Perfil() {
 
         <div className="profile-actions text-white my-4 w-3/5 mx-auto flex justify-around">
           <button
-            onClick={() => setShowModal(true)} 
+            onClick={() => setShowModalPerfil(true)} 
             className="edit-btn py-2 px-5 bg-green-700 rounded-lg cursor-pointer hover:bg-green-800">
             Editar Perfil
           </button>
@@ -49,7 +55,7 @@ export default function Perfil() {
         <h4 className="my-4">Publicações</h4>
 
         {/* exemplo de post */}
-        <div className="post bg-blue-300 p-4 rounded-lg my-4 cursor-pointer">
+        <div onClick={() => setShowModalComentario(true)} className="post bg-blue-300 p-4 rounded-lg my-4 cursor-pointer">
           <div className="post-header flex items-center mb-3">
             <Image width={10} height={10} src="/profile-picture.webp" alt="Avatar" className="post-avatar w-10 h-10 rounded-full mr-3"/>
             <span className="post-info text-sm text-gray-500"> 
