@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import ModalPerfil from "../components/Modal-perfil";
 import Image from "next/image";
 
 export default function Home() {
@@ -63,3 +64,4 @@ export default function Home() {
     </div>
   );
 }
+e;
