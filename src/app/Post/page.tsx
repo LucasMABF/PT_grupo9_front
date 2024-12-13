@@ -1,67 +1,94 @@
 "use client";
-import { useEffect, useState } from "react";
-import ModalPerfil from "../components/Modal-perfil";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import ModalComentario from "../components/Modal-comentario";
 
-export default function Home() {
+interface Post {
+  id: number;
+  body: string;
+  postId: number;
+  user: { id: number; username: string };
+}
+
+export default function Post() {
+  const [showModalComentario, setShowModalComentario] = useState(false);
+  const [ShowPost, setShowPost] = useState(false);
+  const [Post, setPost] = useState<Post[]>([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch("https://dummyjson.com/comments");
+        const data = await response.json();
+        setPost(data.comments);
+      } catch (error) {
+        console.error("Erro ao buscar os itens:", error);
+      }
+    };
+    fetchPosts();
+  }, []);
+
   return (
-    <div className="flex justify-center items-center body font-arial h-screen bg-gray-100 text-gray-800 m-0 p-0">
-      <div className="  h-auto w-96 m-0 ">
-        <div className="post-comment">
-          <div className="w-full m-3 bg-white rounded-md shadow-xs">
-            <div className="flex p-2 overflow-hidden">
-              <div className="h-10 w-10 mr-10px rounded-s">
-                <img src="img/images (1).jpeg" alt="image" />
-              </div>
-              <div className="user-meta">
-                <div className="uppercase font-medium">Fulano</div>
-                <div className="text-xs">10 days ago</div>
-              </div>
+    <>
+      {showModalComentario ? (
+        <ModalComentario
+          onClose={() => setShowModalComentario(false)}
+        ></ModalComentario>
+      ) : null}
+
+      {ShowPost ? (
+        <div>
+          {Post.map((post) => (
+            <div key={post.id}>
+              <p>{post.body}</p>
+              <span>By: {post.user.username}</span>
             </div>
-            <div className="px-0 py-3">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat
-              error nisi quae odio magni hic porro, at omnis, sunt voluptate id
-              illo reprehenderit repellendus recusandae tempora assumenda totam
-              iusto explicabo.
-            </div>
-          </div>
-          <div className="w-full m-3 bg-white rounded-md shadow-xs">
-            <div className="flex p-2 overflow-hidden">
-              <div className="h-10 w-10 mr-10px rounded-s">
-                <img src="img/images.jpeg" alt="image" />
+          ))}
+        </div>
+      ) : null}
+
+      <main className="body bg-gray-100 justify-center items-center w-screen h-screen flex flex-col">
+        {/* Comment Box */}
+        <div className="bg-white border border-black h-full w-2/3 rounded-xl mt-14 py-5 px-5">
+          <div className="bg-green-100 h-1/3 px-10 py-10 rounded-[100px] items-center mb-3 shadow-lg">
+            <Image
+              width={10}
+              height={10}
+              src="/profile-picture.webp"
+              alt="Avatar"
+              className="post-avatar w-10 h-10 rounded-full"
+            />
+            <span className="post-info text-sm text-gray-500">
+              <span className="user-name text-lg">Jacinto Pinto</span>
+              <span className="estrelas text-lg ml-3">
+                <span className="estrela1 m-0.5 text-yellow-500">&#9733;</span>
+                <span className="estrela2 m-0.5 text-yellow-500">&#9733;</span>
+                <span className="estrela3 m-0.5 text-yellow-500">&#9733;</span>
+                <span className="estrela4 m-0.5">&#9733;</span>
+                <span className="estrela5 m-0.5">&#9733;</span>
+              </span>
+              <br />
+              <span className="data">23/12/2024</span>, às{" "}
+              <span className="hora">21:42</span> -{" "}
+              <span className="professor">Dumbledore</span> -{" "}
+              <span className="disciplina">Magia Negra</span>
+            </span>
+
+            <p className="post-text my-4 text-gray-800">
+              Adorei esse professor, ele deixa fazer a prova em grupo e também
+            </p>
+            <div className="w-full flex justify-between items-center">
+              <button onClick={() => setShowPost(true)}>2 comentários</button>
+              <div className="flex gap-4">
+                <button onClick={() => setShowModalComentario(true)}>
+                  Editar
+                </button>
+                <button>Excluir</button>
               </div>
-              <div className="user-meta">
-                <div className="uppercase font-medium">Beltrano</div>
-                <div className="text-xs">12 days ago</div>
-              </div>
-            </div>
-            <div className="px-0 py-3">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat
-              error nisi quae odio magni hic porro, at omnis, sunt voluptate id
-              illo reprehenderit repellendus recusandae tempora assumenda totam
-              iusto explicabo.
             </div>
           </div>
         </div>
-        <div className="p-3 overflow-hidden">
-          <div className="flex w-max">
-            <div className="w-6 h-6 mr-3 rounded-lg">
-              <img src="img/images (1).jpeg" alt="image2" />
-            </div>
-            <div className="name">Fulano</div>
-          </div>
-          <form action="" className="post">
-            <textarea
-              className="bg-black w-fit h-40 mx-3 p-3"
-              placeholder="Your Massage"
-            ></textarea>
-            <button className="shadow-xs outline-none float-right px-2 bg-green-500 bg-white cursor-pointer rounded">
-              comment
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
+      </main>
+    </>
   );
 }
-e;
