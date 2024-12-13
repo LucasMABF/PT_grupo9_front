@@ -9,7 +9,7 @@ const ModalPerfil: React.FC<ModalPerfilProps> = ({ onClose }) => {
 
     return (
         <>
-        <div className="  z-10 fixed bg-gray-800 bg-opacity-75 w-full h-full flex justify-center items-center">
+        <div className="z-10 fixed bg-gray-800 bg-opacity-75 w-full h-full flex justify-center items-center">
             <div className="perfil-container bg-gray-300 flex flex-col items-center justify-center px-20 py-12 rounded-xl">
                 
                 <div className="w-full  -mr-28 -mt-8 flex justify-end font-sans text-xl font-bold text-black">
