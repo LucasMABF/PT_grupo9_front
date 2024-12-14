@@ -1,19 +1,38 @@
 import React from 'react';
-
+import { useState, useEffect } from 'react';
 interface ModalComentarioProps {
     onClose: () => void;
+    initialComment: string; //comentario pre existente do post
+    onSave: (novoComentario: string) => void;
 }
-const ModalComentario: React.FC<ModalComentarioProps> = ({ onClose }) => {
 
+const ModalComentario: React.FC<ModalComentarioProps> = ({ onClose, initialComment, onSave }) => {
+    const [comentario, setComentario] = useState("");
+    
+    useEffect(() => { //inicializa o estado com o comentario inicial
+        setComentario(initialComment);
+    }, [initialComment]);
+
+    const handleSave = (event: React.FormEvent) => {
+        event.preventDefault(); // nao deixa a pagina reiniciar
+        onSave(comentario);
+    };
+ 
     return (
         <>
-        <div className="body z-10 fixed bg-gray-800 bg-opacity-75 w-full h-full flex justify-center items-center">
-            <form action="POST" className="evaluation-container bg-blue-600 flex flex-col items-center justify-center px-10 py-12 w-3/5 rounded-xl">
-                    <textarea name="Comentario" id="Comentario" className="my-4 bg-blue-100 text-black p-4 rounded-lg w-full h-64"></textarea>                
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <form onSubmit={handleSave} className="evaluation-container bg-blue-600 flex flex-col items-center justify-center px-10 py-12 w-3/5 rounded-xl">
+                    <textarea 
+                        value={comentario} 
+                        onChange={(event) => setComentario(event.target.value)} 
+                        name="Comentario" 
+                        id="Comentario" 
+                        className="my-4 bg-blue-100 text-black p-4 rounded-lg w-full h-64">
+                    </textarea>                
                     <div className="container-footer flex justify-end items-end">
                         <div className="-mr-96 flex">
-                            <div onClick = {onClose} className="cancel py-2 px-6 tracking-wider border-2 border-blue-600 rounded-lg hover:border-blue-500" >Cancelar</div>
-                            <button onClick = {onClose} type="submit" className="submit cursor-pointer mx-4 rounded-lg bg-blue-500 py-2 px-6 tracking-wider border-2 border-blue-500 hover:bg-transparent">Avaliar</button>
+                            <div onClick = {onClose} className="cancel py-2 px-6 tracking-wider border-2 border-blue-600 rounded-lg cursor-pointer hover:border-blue-500" >Cancelar</div>
+                            <button onClick = {onClose} type="submit" className="submit cursor-pointer mx-4 rounded-lg bg-blue-500 py-2 px-6 tracking-wider border-2 border-blue-500 hover:bg-transparent">Salvar</button>
                         </div>
                         
                     </div>

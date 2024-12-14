@@ -1,25 +1,20 @@
 "use client";
 import Image from 'next/image'
+import Publicacao from '../components/Post';
 import ModalPerfil from '../components/Modal-perfil';
-import ModalComentario from '../components/Modal-comentario';
 import { useState } from 'react';
 
 export default function Perfil() {
 
   const [showModalPerfil, setShowModalPerfil] = useState(false);
-  const [showModalComentario, setShowModalComentario] = useState(false);
 
   return (  
     <>
     {showModalPerfil ? (
       <ModalPerfil onClose={() => setShowModalPerfil(false)}></ModalPerfil>
     ) : (<div></div>)}
-    
-    {showModalComentario ? (
-      <ModalComentario onClose={() => setShowModalComentario(false)}></ModalComentario>
-    ): (<div></div>)}
 
-    <div className="body font-arial bg-gray-100 text-gray-800 m-0 p-0">
+    <div className=" overflow:hidden body font-arial bg-gray-100 text-gray-800 m-0 p-0">
     
     {/* cabecalho */}
     <div className="header w-screen h-12 bg-green-950"></div>
@@ -54,31 +49,10 @@ export default function Perfil() {
         <hr/>
         <h4 className="my-4">Publicações</h4>
 
-        {/* exemplo de post */}
-        <div onClick={() => setShowModalComentario(true)} className="post bg-blue-300 p-4 rounded-lg my-4 cursor-pointer">
-          <div className="post-header flex items-center mb-3">
-            <Image width={10} height={10} src="/profile-picture.webp" alt="Avatar" className="post-avatar w-10 h-10 rounded-full mr-3"/>
-            <span className="post-info text-sm text-gray-500"> 
-              <span className="user-name text-lg">Jacinto Pinto</span> 
-              <span className="estrelas text-lg ml-3 "> 
-                  <span className="estrela1 m-0.5 text-yellow-500">&#9733;</span>
-                  <span className="estrela2 m-0.5 text-yellow-500">&#9733;</span>
-                  <span className="estrela3 m-0.5 text-yellow-500">&#9733;</span>
-                  <span className="estrela4 m-0.5">&#9733;</span>
-                  <span className="estrela5 m-0.5">&#9733;</span>
-              </span> 
-              <br/>
-            <span className="data">23/12/2024</span>, às <span className="hora">21:42</span> - <span className="professor">Dumbledore</span> - <span className="disciplina">Magia Negra</span>
-          </span>
-          </div>
-        <p className="post-text my-4 text-gray-800">
-            Adorei esse professor, ele deixa fazer a prova em grupo e tambem Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-        </p>
-        <div className="post-footer text-sm hover:underline">
-          <span>2 comentários</span>
-        </div>
-      </div>
-
+        <Publicacao></Publicacao>
+        <Publicacao></Publicacao>
+        <Publicacao></Publicacao>
+        <Publicacao></Publicacao>
       </div>
     </div>
   </div>

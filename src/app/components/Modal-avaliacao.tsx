@@ -27,18 +27,11 @@ const ModalAvaliacao: React.FC<ModalAvaliacaoProps> = ({ onClose }) => {
                         <div className="-mr-96 flex">
                             <div onClick = {onClose} className="cancel py-2 px-6 tracking-wider border-2 border-blue-600 rounded-lg hover:border-blue-500" >Cancelar</div>
                             <button type="submit" className="submit cursor-pointer mx-4 rounded-lg bg-blue-500 py-2 px-6 tracking-wider border-2 border-blue-500 hover:bg-transparent">Avaliar</button>
-                        </div>
-                        
+                        </div>        
                     </div>
-            
             </form>
-
         </div>
-        
-        
         </>
-
-
     );
 }
 
