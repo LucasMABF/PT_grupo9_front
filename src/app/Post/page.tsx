@@ -1,8 +1,6 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import Publicacao from "../components/Post";
-import ModalComentario from "../components/Modal-comentario";
 
 interface Post {
   id: number;
@@ -12,7 +10,6 @@ interface Post {
 }
 
 export default function Post() {
-  const [showModalComentario, setShowModalComentario] = useState(false);
   const [ShowPost, setShowPost] = useState(false);
   const [Post, setPost] = useState<Post[]>([]);
 
@@ -31,14 +28,6 @@ export default function Post() {
 
   return (
     <>
-      {showModalComentario ? (
-        <ModalComentario
-          onClose={() => setShowModalComentario(false)}
-        ></ModalComentario>
-      ) : (
-        <div></div>
-      )}
-
       {ShowPost ? (
         <div>
           {Post.map((post) => (
@@ -52,25 +41,37 @@ export default function Post() {
 
       <main className="body bg-gray-100 justify-center items-center w-screen h-screen flex flex-col">
         {/* Comment Box */}
-        <div className="bg-white border  border-x-1  border-black h-full max-w-full mx-auto  py-4 px-4">
-          <div className="bg-green-100 h-1/3 px-10 py-10 rounded-[100px] items-center mb-3 shadow-lg">
-            <Image
-              width={10}
-              height={10}
-              src="/profile-picture.webp"
-              alt="Avatar"
-              className="post-avatar w-10 h-10 rounded-full"
-            />
+        <div className="bg-white border border-x-1 border-black h-full max-w-full mx-auto py-4 px-4">
+          <div className="bg-blue-300 px-10 py-10 rounded-[50px] shadow-lg">
+            <div className="flex items-center">
+              <Image
+                width={40} // aumentei o tamanho para maior visibilidade
+                height={40}
+                src="/profile-picture.webp"
+                alt="Avatar"
+                className="post-avatar w-10 h-10 rounded-full mr-3"
+              />
+              <div>
+                <span className="user-name text-lg font-bold">
+                  Jacinto Pinto
+                </span>
+                <span className="estrelas text-lg ml-3">
+                  <span className="estrela1 m-0.5 text-yellow-500">
+                    &#9733;
+                  </span>
+                  <span className="estrela2 m-0.5 text-yellow-500">
+                    &#9733;
+                  </span>
+                  <span className="estrela3 m-0.5 text-yellow-500">
+                    &#9733;
+                  </span>
+                  <span className="estrela4 m-0.5">&#9733;</span>
+                  <span className="estrela5 m-0.5">&#9733;</span>
+                </span>
+              </div>
+            </div>
+
             <span className="post-info text-sm text-gray-500">
-              <span className="user-name text-lg">Jacinto Pinto</span>
-              <span className="estrelas text-lg ml-3">
-                <span className="estrela1 m-0.5 text-yellow-500">&#9733;</span>
-                <span className="estrela2 m-0.5 text-yellow-500">&#9733;</span>
-                <span className="estrela3 m-0.5 text-yellow-500">&#9733;</span>
-                <span className="estrela4 m-0.5">&#9733;</span>
-                <span className="estrela5 m-0.5">&#9733;</span>
-              </span>
-              <br />
               <span className="data">23/12/2024</span>, às{" "}
               <span className="hora">21:42</span> -{" "}
               <span className="professor">Dumbledore</span> -{" "}
@@ -83,9 +84,7 @@ export default function Post() {
             <div className="w-full flex justify-between items-center">
               <button onClick={() => setShowPost(true)}>2 comentários</button>
               <div className="flex gap-4">
-                <button onClick={() => setShowModalComentario(true)}>
-                  Editar
-                </button>
+                <button>Editar</button>
                 <button>Excluir</button>
               </div>
             </div>
