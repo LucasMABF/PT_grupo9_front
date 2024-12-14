@@ -2,13 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-<<<<<<< HEAD
-/* :root {
-  --background: #ffffff;
-=======
 :root {
   --background: #c9f8ee;
->>>>>>> 7a1a34135a18ef2c5667164769268ca54ef8c0c5
+
   --foreground: #171717;
   --color1: #008940;
   --color2: #11366a;
@@ -31,9 +27,6 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
-<<<<<<< HEAD
-} */
-=======
 }
 
 /* width */
@@ -57,5 +50,3 @@ section::-webkit-scrollbar-thumb {
 section::-webkit-scrollbar-thumb:hover {
   background: var(--scroolbar3);
 }
-
->>>>>>> 7a1a34135a18ef2c5667164769268ca54ef8c0c5
