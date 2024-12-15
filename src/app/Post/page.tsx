@@ -45,7 +45,7 @@ export default function Post() {
           <div className="bg-blue-300 px-10 py-10 rounded-[50px] shadow-lg">
             <div className="flex items-center">
               <Image
-                width={40} // aumentei o tamanho para maior visibilidade
+                width={40}
                 height={40}
                 src="/profile-picture.webp"
                 alt="Avatar"
