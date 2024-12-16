@@ -10,12 +10,12 @@ export default function Post() {
         </button>
       </a>
 
-      <main className="body bg-gray-100 justify-center items-center w-screen h-screen flex flex-col">
+      <main className="body bg-origin-content justify-center items-center w-screen h-screen flex flex-col">
         {/* botao de voltar */}
 
         {/* Comment Box */}
-        <div className="bg-white border border-x-1 border-black h-full max-w-full mx-auto py-4 px-4">
-          <div className="bg-blue-300 px-10 py-10 rounded-[50px] shadow-lg">
+        <div className="bg-color2 border border-x-2 border-black h-full max-w-full mx-auto py-4 px-4">
+          <div className="bg-color1 px-10 py-10 rounded-[50px] shadow-lg">
             <div className="border-b-2 border-black w-full">
               <div className="flex items-center ">
                 <Image
@@ -45,7 +45,7 @@ export default function Post() {
                 </div>
               </div>
 
-              <span className="post-info text-sm text-gray-500">
+              <span className="post-info text-sm text-black">
                 <span className="data">23/12/2024</span>, às{" "}
                 <span className="hora">21:42</span> -{" "}
                 <span className="professor">Dumbledore</span> -{" "}
@@ -55,7 +55,8 @@ export default function Post() {
               <p className="post-text my-4 text-gray-800">
                 Adorei esse professor, ele deixa fazer a prova em grupo e também
               </p>
-              <div className="w-full flex justify-between items-center">
+
+              <div className="w-full text-black flex justify-between items-center">
                 <button>2 comentários</button>
                 <div className="flex gap-4">
                   <button>Editar</button>
@@ -75,10 +76,10 @@ export default function Post() {
                   className="post-avatar w-10 h-10 rounded-full mr-3"
                 />
                 <div>
-                  <span className="user-name font-bold text-gray-900">
+                  <span className="user-name font-bold text-black">
                     Baby Dinossauro
                   </span>
-                  <span className="text-sm ml-3 text-gray-500">
+                  <span className="text-sm ml-3 text-black">
                     <span className="data ">25/01/2025</span>, ás{" "}
                     <span className="hora ">00:00</span>
                   </span>
@@ -103,7 +104,7 @@ export default function Post() {
                   <span className="user-name font-bold text-gray-900">
                     Baby Dinossauro
                   </span>
-                  <span className="text-sm ml-3 text-gray-500">
+                  <span className="text-sm ml-3 text-black">
                     <span className="data ">25/01/2025</span>, ás{" "}
                     <span className="hora ">00:00</span>
                   </span>
