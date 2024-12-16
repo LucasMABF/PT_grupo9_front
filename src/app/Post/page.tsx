@@ -14,7 +14,7 @@ export default function Post() {
         {/* botao de voltar */}
 
         {/* Comment Box */}
-        <div className="bg-color2 border border-x-2 border-black h-full max-w-full mx-auto py-4 px-4">
+        <div className="bg-color2 border border-x-1 border-black  h-full max-w-full mx-auto py-4 px-4 ">
           <div className="bg-color1 px-10 py-10 rounded-[50px] shadow-lg">
             <div className="flex items-center ">
               <Image
@@ -66,11 +66,57 @@ export default function Post() {
 
           {/*Caixa de comentário de outro usuário */}
           <div className="border-t border-black my-4"></div>
-          <div className="bg-color1  mx-9 py-10 rounded-[50px] shadow-lg"></div>
+          <div className="bg-color1  mx-9 py-6 rounded-[50px] shadow-lg">
+            <div className="flex items-center">
+              <Image
+                width={40}
+                height={40}
+                src="/Perfil_secundario.jpg"
+                alt="Avatar"
+                className="post-avatar w-10 h-10 rounded-full mr-3"
+              />
+              <div>
+                <span className="user-name font-bold text-gray-900">
+                  Baby Dinossauro
+                </span>
+                <span className="text-sm ml-3 text-black">
+                  <span className="data ">25/01/2025</span>, ás{" "}
+                  <span className="hora ">00:00</span>
+                </span>
+              </div>
+            </div>
+
+            <p className="post-text my-3 pl-10 text-gray-800">
+              Valeu pela dica
+            </p>
+          </div>
 
           {/*Caixa de comentário de outro usuário */}
           <div className="border-t border-black my-4"></div>
-          <div className="bg-color1  mx-9 py-10 rounded-[50px] shadow-lg"></div>
+          <div className="bg-color1  mx-9 py-6 rounded-[50px] shadow-lg">
+            <div className="flex items-center">
+              <Image
+                width={40}
+                height={40}
+                src="/Perfil_secundario.jpg"
+                alt="Avatar"
+                className="post-avatar w-10 h-10 rounded-full mr-3"
+              />
+              <div>
+                <span className="user-name font-bold text-gray-900">
+                  Baby Dinossauro
+                </span>
+                <span className="text-sm ml-3 text-black">
+                  <span className="data ">25/01/2025</span>, ás{" "}
+                  <span className="hora ">00:00</span>
+                </span>
+              </div>
+            </div>
+
+            <p className="post-text my-3 pl-10 text-gray-800">
+              Semestre que vem tentarei pegar matéria com esse professor
+            </p>
+          </div>
         </div>
       </main>
     </>
