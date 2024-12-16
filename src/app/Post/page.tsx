@@ -58,8 +58,24 @@ export default function Post() {
             <div className="w-full text-black flex justify-between items-center">
               <button>2 comentários</button>
               <div className="flex gap-4">
-                <button>Editar</button>
-                <button>Excluir</button>
+                <button>
+                  <Image
+                    width={20}
+                    height={20}
+                    src="/icon-editar.png"
+                    alt="editar-post"
+                    className="cursor-pointer rounded-sm hover:bg-blue-400"
+                  ></Image>
+                </button>
+                <button>
+                  <Image
+                    width={20}
+                    height={20}
+                    src="/icon-lixeira.png"
+                    alt="deletar-post"
+                    className="cursor-pointer rounded-sm hover:bg-blue-400"
+                  ></Image>
+                </button>
               </div>
             </div>
           </div>
@@ -67,7 +83,7 @@ export default function Post() {
           {/*Caixa de comentário de outro usuário */}
           <div className="border-t border-black my-4"></div>
           <div className="bg-color1  mx-9 py-6 rounded-[50px] shadow-lg">
-            <div className="flex items-center">
+            <div className="flex  px-4 items-center">
               <Image
                 width={40}
                 height={40}
@@ -94,7 +110,7 @@ export default function Post() {
           {/*Caixa de comentário de outro usuário */}
           <div className="border-t border-black my-4"></div>
           <div className="bg-color1  mx-9 py-6 rounded-[50px] shadow-lg">
-            <div className="flex items-center">
+            <div className="flex px-4 items-center">
               <Image
                 width={40}
                 height={40}
