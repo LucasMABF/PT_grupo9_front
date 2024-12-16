@@ -1,7 +1,9 @@
 "use client";
 import Image from "next/image";
+import { useState } from "react";
 
 export default function Post() {
+  const [showComments, setShowComments] = useState(false);
   return (
     <>
       <a href="/perfil">
@@ -56,7 +58,12 @@ export default function Post() {
             </p>
 
             <div className="w-full text-black flex justify-between items-center">
-              <button>2 comentários</button>
+              <button
+                className="hover:underline cursor-pointer"
+                onClick={() => setShowComments(!showComments)}
+              >
+                {showComments ? "Ocultar comentários" : "2 comentários"}
+              </button>
               <div className="flex gap-4">
                 <button>
                   <Image
@@ -80,59 +87,62 @@ export default function Post() {
             </div>
           </div>
 
-          {/*Caixa de comentário de outro usuário */}
-          <div className="border-t border-black my-4"></div>
-          <div className="bg-color1  mx-9 py-6 rounded-[50px] shadow-lg">
-            <div className="flex  px-4 items-center">
-              <Image
-                width={40}
-                height={40}
-                src="/Perfil_secundario.jpg"
-                alt="Avatar"
-                className="post-avatar w-10 h-10 rounded-full mr-3"
-              />
-              <div>
-                <span className="user-name font-bold text-gray-900">
-                  Baby Dinossauro
-                </span>
-                <span className="text-sm ml-3 text-black">
-                  <span className="data ">25/01/2025</span>, ás{" "}
-                  <span className="hora ">00:00</span>
-                </span>
+          {showComments && (
+            <>
+              <div className="border-t border-black my-4"></div>
+              <div className="bg-color1  mx-9 py-6 rounded-[50px] shadow-lg">
+                <div className="flex  px-4 items-center">
+                  <Image
+                    width={40}
+                    height={40}
+                    src="/Perfil_secundario.jpg"
+                    alt="Avatar"
+                    className="post-avatar w-10 h-10 rounded-full mr-3"
+                  />
+                  <div>
+                    <span className="user-name font-bold text-gray-900">
+                      Baby Dinossauro
+                    </span>
+                    <span className="text-sm ml-3 text-black">
+                      <span className="data ">25/01/2025</span>, ás{" "}
+                      <span className="hora ">00:00</span>
+                    </span>
+                  </div>
+                </div>
+
+                <p className="post-text my-3 pl-10 text-gray-800">
+                  Valeu pela dica
+                </p>
               </div>
-            </div>
 
-            <p className="post-text my-3 pl-10 text-gray-800">
-              Valeu pela dica
-            </p>
-          </div>
+              {/*Caixa de comentário de outro usuário */}
+              <div className="border-t border-black my-4"></div>
+              <div className="bg-color1  mx-9 py-6 rounded-[50px] shadow-lg">
+                <div className="flex px-4 items-center">
+                  <Image
+                    width={40}
+                    height={40}
+                    src="/Perfil_secundario.jpg"
+                    alt="Avatar"
+                    className="post-avatar w-10 h-10 rounded-full mr-3"
+                  />
+                  <div>
+                    <span className="user-name font-bold text-gray-900">
+                      Baby Dinossauro
+                    </span>
+                    <span className="text-sm ml-3 text-black">
+                      <span className="data ">25/01/2025</span>, ás{" "}
+                      <span className="hora ">00:00</span>
+                    </span>
+                  </div>
+                </div>
 
-          {/*Caixa de comentário de outro usuário */}
-          <div className="border-t border-black my-4"></div>
-          <div className="bg-color1  mx-9 py-6 rounded-[50px] shadow-lg">
-            <div className="flex px-4 items-center">
-              <Image
-                width={40}
-                height={40}
-                src="/Perfil_secundario.jpg"
-                alt="Avatar"
-                className="post-avatar w-10 h-10 rounded-full mr-3"
-              />
-              <div>
-                <span className="user-name font-bold text-gray-900">
-                  Baby Dinossauro
-                </span>
-                <span className="text-sm ml-3 text-black">
-                  <span className="data ">25/01/2025</span>, ás{" "}
-                  <span className="hora ">00:00</span>
-                </span>
+                <p className="post-text my-3 pl-10 text-gray-800">
+                  Semestre que vem tentarei pegar matéria com esse professor
+                </p>
               </div>
-            </div>
-
-            <p className="post-text my-3 pl-10 text-gray-800">
-              Semestre que vem tentarei pegar matéria com esse professor
-            </p>
-          </div>
+            </>
+          )}
         </div>
       </main>
     </>
