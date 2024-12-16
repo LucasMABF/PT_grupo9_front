@@ -63,9 +63,14 @@ export default function Post() {
               </div>
             </div>
           </div>
-          <div className="border-t border-black my-4"></div>
 
+          {/*Caixa de comentário de outro usuário */}
           <div className="border-t border-black my-4"></div>
+          <div className="bg-color1  mx-9 py-10 rounded-[50px] shadow-lg"></div>
+
+          {/*Caixa de comentário de outro usuário */}
+          <div className="border-t border-black my-4"></div>
+          <div className="bg-color1  mx-9 py-10 rounded-[50px] shadow-lg"></div>
         </div>
       </main>
     </>
