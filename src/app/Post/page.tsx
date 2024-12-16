@@ -4,9 +4,11 @@ import Image from "next/image";
 export default function Post() {
   return (
     <>
-      <button className="back-button absolute w-12 h-12 rounded-full bg-white flex justify-center items-center m-20 cursor-pointer shadow-lg hover:w-20 transition-all">
-        <div className="w-2.5 h-2.5 border-l-2 border-t-2 border-black rotate-[-45deg] hover:border-blue-600"></div>
-      </button>
+      <a href="/perfil">
+        <button className="back-button absolute w-12 h-12 rounded-full bg-green-700 flex justify-center items-center m-20 cursor-pointer shadow-lg hover:w-20 transition-all">
+          <div className="w-2.5 h-2.5 border-l-2 border-t-2 border-black rotate-[-45deg] hover:border-blue-600"></div>
+        </button>
+      </a>
 
       <main className="body bg-gray-100 justify-center items-center w-screen h-screen flex flex-col">
         {/* botao de voltar */}
