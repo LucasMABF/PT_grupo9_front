@@ -38,7 +38,7 @@ export default function Post() {
 
       <main className="body  bg-origin-content justify-center items-center w-screen h-screen flex flex-col">
         {/* Comment Box */}
-        <div className="bg-color2 border border-black h-full max-w-lg min-w-[20%] mx-auto p-4 overflow-x-auto ">
+        <div className="bg-color2 border border-black h-full max-w-lg min-w-[30%] mx-auto p-4 overflow-x-auto ">
           <div className="bg-color1 px-10 py-10 rounded-[50px] shadow-lg">
             <div className="flex items-center ">
               <Image
@@ -48,23 +48,30 @@ export default function Post() {
                 alt="Avatar"
                 className="post-avatar w-10 h-10 rounded-full mr-3"
               />
+
               <div>
                 <span className="user-name text-lg font-bold text-gray-900">
                   Jacinto Pinto
                 </span>
-                <span className="estrelas text-lg ml-3">
-                  <span className="estrela1 m-0.5 text-yellow-500">
-                    &#9733;
+
+                {/*Deletando estrelas */}
+                {deleteComment ? (
+                  " "
+                ) : (
+                  <span className="estrelas text-lg ml-3">
+                    <span className="estrela1 m-0.5 text-yellow-500">
+                      &#9733;
+                    </span>
+                    <span className="estrela2 m-0.5 text-yellow-500">
+                      &#9733;
+                    </span>
+                    <span className="estrela3 m-0.5 text-yellow-500">
+                      &#9733;
+                    </span>
+                    <span className="estrela4 m-0.5">&#9733;</span>
+                    <span className="estrela5 m-0.5">&#9733;</span>
                   </span>
-                  <span className="estrela2 m-0.5 text-yellow-500">
-                    &#9733;
-                  </span>
-                  <span className="estrela3 m-0.5 text-yellow-500">
-                    &#9733;
-                  </span>
-                  <span className="estrela4 m-0.5">&#9733;</span>
-                  <span className="estrela5 m-0.5">&#9733;</span>
-                </span>
+                )}
               </div>
             </div>
 
