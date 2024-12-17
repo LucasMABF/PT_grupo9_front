@@ -59,7 +59,7 @@ export default function Post() {
 
             <div className="w-full text-black flex justify-between items-center">
               <button
-                className="hover:underline cursor-pointer"
+                className="hover:underline cursor-pointer "
                 onClick={() => setShowComments(!showComments)}
               >
                 {showComments ? "Ocultar comentários" : "2 comentários"}
@@ -90,7 +90,10 @@ export default function Post() {
           {showComments && (
             <>
               <div className="border-t border-black my-4"></div>
-              <div className="bg-color1  mx-9 py-6 rounded-[50px] shadow-lg">
+              <div
+                className="bg-color1  mx-4 py-6 rounded-[50px] shadow-lg animate-fade-up
+                animate-once"
+              >
                 <div className="flex  px-4 items-center">
                   <Image
                     width={40}
@@ -116,8 +119,8 @@ export default function Post() {
               </div>
 
               {/*Caixa de comentário de outro usuário */}
-              <div className="border-t border-black my-4"></div>
-              <div className="bg-color1  mx-9 py-6 rounded-[50px] shadow-lg">
+
+              <div className="bg-color1 my-6 mx-5 py-6 rounded-[50px] shadow-lg">
                 <div className="flex px-4 items-center">
                   <Image
                     width={40}
