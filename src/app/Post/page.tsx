@@ -7,6 +7,7 @@ import { useState, useContext } from "react";
 export default function Post() {
   const [showButtonComments, setShowButtonComments] = useState(false);
   const { loggedIn } = useContext(loggedInContext);
+  const [deleteComment, setDeleteComment] = useState(false);
 
   const [showModalComentario, setShowModalComentario] = useState(false);
   const [comentarioAtual, setComentarioAtual] = useState(
@@ -27,6 +28,8 @@ export default function Post() {
           onSave={handleUpdateComentario} //funcao passada como prop
         />
       )}
+
+      {deleteComment && "Comentário apagado"}
 
       {/* botao de voltar */}
       <a href="/perfil">
@@ -74,7 +77,16 @@ export default function Post() {
               <span className="disciplina">Magia Negra</span>
             </span>
 
-            <p className="post-text  my-4  text-gray-800">{comentarioAtual}</p>
+            {/*Botão de excluir mensagem */}
+            {deleteComment ? (
+              <p className="post-text text-center my-4  text-gray-800">
+                Está mensagem foi apagada
+              </p>
+            ) : (
+              <p className="post-text  my-4  text-gray-800">
+                {comentarioAtual}
+              </p>
+            )}
 
             <div className="w-full text-black flex justify-between">
               <button
@@ -96,7 +108,7 @@ export default function Post() {
                       className="cursor-pointer rounded-sm hover:bg-blue-400"
                     ></Image>
                   </button>
-                  <button>
+                  <button onClick={() => setDeleteComment(true)}>
                     <Image
                       width={20}
                       height={20}
