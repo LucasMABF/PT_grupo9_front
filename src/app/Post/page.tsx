@@ -29,8 +29,6 @@ export default function Post() {
         />
       )}
 
-      {deleteComment && "Comentário apagado"}
-
       {/* botao de voltar */}
       <a href="/perfil">
         <button className="back-button absolute w-12 h-12 rounded-full bg-green-700 flex justify-center items-center m-20 cursor-pointer shadow-lg hover:w-20 transition-all">
