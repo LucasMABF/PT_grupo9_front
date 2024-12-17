@@ -1,14 +1,34 @@
 "use client";
 import Image from "next/image";
 import { loggedInContext } from "../providers/loggedIn";
+import ModalComentario from "../components/Modal-comentario";
 import { useState, useContext } from "react";
 
 export default function Post() {
-  const [showComments, setShowComments] = useState(false);
+  const [showButtonComments, setShowButtonComments] = useState(false);
   const { loggedIn } = useContext(loggedInContext);
+
+  const [showModalComentario, setShowModalComentario] = useState(false);
+  const [comentarioAtual, setComentarioAtual] = useState(
+    "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.  "
+  );
+
+  const handleUpdateComentario = (novoComentario: string) => {
+    setComentarioAtual(novoComentario);
+    setShowModalComentario(false); // Fecha o modal após salvar
+  };
 
   return (
     <>
+      {showModalComentario && (
+        <ModalComentario
+          onClose={() => setShowModalComentario(false)}
+          initialComment={comentarioAtual}
+          onSave={handleUpdateComentario} //funcao passada como prop
+        />
+      )}
+
+      {/* botao de voltar */}
       <a href="/perfil">
         <button className="back-button absolute w-12 h-12 rounded-full bg-green-700 flex justify-center items-center m-20 cursor-pointer shadow-lg hover:w-20 transition-all">
           <div className="w-2.5 h-2.5 border-l-2 border-t-2 border-black rotate-[-45deg] hover:border-blue-600"></div>
@@ -16,8 +36,6 @@ export default function Post() {
       </a>
 
       <main className="body bg-origin-content justify-center items-center w-screen h-screen flex flex-col">
-        {/* botao de voltar */}
-
         {/* Comment Box */}
         <div className="bg-color2 border border-x-1 border-black  h-full max-w-full mx-auto py-4 px-4 ">
           <div className="bg-color1 px-10 py-10 rounded-[50px] shadow-lg">
@@ -63,15 +81,15 @@ export default function Post() {
             <div className="w-full text-black flex justify-between items-center">
               <button
                 className="hover:underline cursor-pointer "
-                onClick={() => setShowComments(!showComments)}
+                onClick={() => setShowButtonComments(!showButtonComments)}
               >
-                {showComments ? "Ocultar comentários" : "2 comentários"}
+                {showButtonComments ? "Ocultar comentários" : "2 comentários"}
               </button>
 
               {/*Implementando função de logado e deslogado */}
               {loggedIn && (
                 <div className="flex gap-4">
-                  <button>
+                  <button onClick={() => setShowModalComentario(true)}>
                     <Image
                       width={20}
                       height={20}
@@ -94,7 +112,7 @@ export default function Post() {
             </div>
           </div>
 
-          {showComments && (
+          {showButtonComments && (
             <>
               <div className="border-t border-black my-4"></div>
               <div
