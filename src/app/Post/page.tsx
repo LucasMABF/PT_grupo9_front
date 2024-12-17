@@ -35,9 +35,9 @@ export default function Post() {
         </button>
       </a>
 
-      <main className="body bg-origin-content justify-center items-center w-screen h-screen flex flex-col">
+      <main className="body  bg-origin-content justify-center items-center w-screen h-screen flex flex-col">
         {/* Comment Box */}
-        <div className="bg-color2 border border-x-1 border-black  h-full max-w-full mx-auto py-4 px-4 ">
+        <div className="bg-color2 border border-black h-full max-w-lg min-w-[60%] mx-auto p-4 overflow-x-auto ">
           <div className="bg-color1 px-10 py-10 rounded-[50px] shadow-lg">
             <div className="flex items-center ">
               <Image
@@ -74,11 +74,9 @@ export default function Post() {
               <span className="disciplina">Magia Negra</span>
             </span>
 
-            <p className="post-text my-4 text-gray-800">
-              Adorei esse professor, ele deixa fazer a prova em grupo e também
-            </p>
+            <p className="post-text  my-4  text-gray-800">{comentarioAtual}</p>
 
-            <div className="w-full text-black flex justify-between items-center">
+            <div className="w-full text-black flex justify-between">
               <button
                 className="hover:underline cursor-pointer "
                 onClick={() => setShowButtonComments(!showButtonComments)}
@@ -166,7 +164,7 @@ export default function Post() {
                 </div>
 
                 <p className="post-text my-3 pl-10 text-gray-800">
-                  Semestre que vem tentarei pegar matéria com esse professor
+                  Semestre que vem tentarei pegar matéria com esse professor !
                 </p>
               </div>
             </>
