@@ -38,7 +38,7 @@ export default function Post() {
 
       <main className="body  bg-origin-content justify-center items-center w-screen h-screen flex flex-col">
         {/* Comment Box */}
-        <div className="bg-color2 border border-black h-full max-w-lg min-w-[60%] mx-auto p-4 overflow-x-auto ">
+        <div className="bg-color2 border border-black h-full max-w-lg min-w-[20%] mx-auto p-4 overflow-x-auto ">
           <div className="bg-color1 px-10 py-10 rounded-[50px] shadow-lg">
             <div className="flex items-center ">
               <Image
