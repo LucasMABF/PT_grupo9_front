@@ -1,9 +1,12 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { loggedInContext } from "../providers/loggedIn";
+import { useState, useContext } from "react";
 
 export default function Post() {
   const [showComments, setShowComments] = useState(false);
+  const { loggedIn } = useContext(loggedInContext);
+
   return (
     <>
       <a href="/perfil">
@@ -64,26 +67,30 @@ export default function Post() {
               >
                 {showComments ? "Ocultar comentários" : "2 comentários"}
               </button>
-              <div className="flex gap-4">
-                <button>
-                  <Image
-                    width={20}
-                    height={20}
-                    src="/icon-editar.png"
-                    alt="editar-post"
-                    className="cursor-pointer rounded-sm hover:bg-blue-400"
-                  ></Image>
-                </button>
-                <button>
-                  <Image
-                    width={20}
-                    height={20}
-                    src="/icon-lixeira.png"
-                    alt="deletar-post"
-                    className="cursor-pointer rounded-sm hover:bg-blue-400"
-                  ></Image>
-                </button>
-              </div>
+
+              {/*Implementando função de logado e deslogado */}
+              {loggedIn && (
+                <div className="flex gap-4">
+                  <button>
+                    <Image
+                      width={20}
+                      height={20}
+                      src="/icon-editar.png"
+                      alt="editar-post"
+                      className="cursor-pointer rounded-sm hover:bg-blue-400"
+                    ></Image>
+                  </button>
+                  <button>
+                    <Image
+                      width={20}
+                      height={20}
+                      src="/icon-lixeira.png"
+                      alt="deletar-post"
+                      className="cursor-pointer rounded-sm hover:bg-blue-400"
+                    ></Image>
+                  </button>
+                </div>
+              )}
             </div>
           </div>
 
