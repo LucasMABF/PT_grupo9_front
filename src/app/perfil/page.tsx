@@ -5,11 +5,16 @@ import ModalPerfil from '../components/Modal-perfil';
 import { loggedInContext } from "../providers/loggedIn";
 import { useState, useContext } from 'react';
 
-export default function Perfil() {
+interface Props {
+  nome: string
+  curso: string
+  departamento: string
+  email: string
+}
+export default function Perfil(props: Props) {
 
   const [showModalPerfil, setShowModalPerfil] = useState(false);
   const {loggedIn} = useContext(loggedInContext);
-
 
   return (  
     <>
@@ -32,9 +37,9 @@ export default function Perfil() {
 
         <Image width={100} height={20} src="/unb-banner.jpg" alt="banner" className="profile-banner w-full h-52"></Image>
         <Image height={500} width= {500} src="/profile-picture.webp" alt="Avatar" className="profile-pic w-52 h-52 rounded-full border-4 border-color2 bg-green-200 -mt-28 mx-auto" />
-        <h1 className="my-2.5 text-2xl font-bold">João da Silva</h1>
-        <p className="my-2 text-base">Ciência da Computação / Dept. Ciência da Computação</p>
-        <p className="my-2 text-base">jacinto.pinto.24@cjr.org.br</p>
+        <h1 className="my-2.5 text-2xl font-bold">{props.nome} João da Silva</h1>
+        <p className="my-2 text-base">{props.curso} Ciência da Computação / {props.departamento} Dept. Ciência da Computação</p>
+        <p className="my-2 text-base">{props.email} jacinto.pinto.24@cjr.org.br</p>
       
       {/* Acoes de perfil para LOGADO */}
       {loggedIn ? (
@@ -55,10 +60,10 @@ export default function Perfil() {
         <hr/>
         <h4 className="my-4">Publicações</h4>
 
-        <Publicacao></Publicacao>
-        <Publicacao></Publicacao>
-        <Publicacao></Publicacao>
-        <Publicacao></Publicacao>
+        <Publicacao nome="nomedeusuario" professor="professor" materia="materia" conteudo="conteudo da postagem"></Publicacao>
+        <Publicacao nome="nomedeusuario" professor="professor" materia="materia" conteudo="conteudo da postagem"></Publicacao>
+
+      
       </div>
     </div>
   </div>
