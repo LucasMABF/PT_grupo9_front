@@ -1,8 +1,8 @@
 "use client";
 import Image from 'next/image'
-import Publicacao from '../components/Post';
-import ModalPerfil from '../components/Modal-perfil';
-import { loggedInContext } from "../providers/loggedIn";
+import Publicacao from '@/components/Post';
+import ModalPerfil from '@/components/Modal-perfil';
+import { loggedInContext } from "@/providers/loggedIn";
 import { useState, useContext } from 'react';
 
 export default function Perfil() {

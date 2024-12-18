@@ -1,39 +1,12 @@
 import axios from "axios";
+import {User} from "@/types/User"
+import { Avaliacao } from "@/types/Avaliacao";
+import { Comentario } from "@/types/Comentario";
 
 const api = axios.create({
   baseURL: "http://localhost:3000",
 })
 
-type User = {
-  nome: string;
-  email: string;
-  departamento: string;
-  curso: string;
-  senha: string;
-  foto_perfil?: string;
-}
-
-type Avaliacao = {
-  userId: number,
-  conteudo: string,
-  disciplinaId: number,
-  professorId: number,
-}
-
-type Comentario = {
-  userId: number,
-  avaliacaoId: number,
-  conteudo: string,
-}
-
-export const createUser = async (user: User) => {
-  try{
-    const res = await api.post("usuario", user);
-    return res.data;
-  }catch(e){
-    console.log(e);
-  }
-}
 
 export const updateUser = async (user: Partial<User>, id:number) => {
   try{

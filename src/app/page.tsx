@@ -1,9 +1,44 @@
-import CardProfessor from "./components/card_professor";
-import DropDown from "./components/dropdown"
+"use client"
+import React, { useEffect, useState } from "react";
+import CardProfessor from "@/components/card_professor";
+import DropDown from "@/components/dropdown"
 import Image from "next/image";
 import SearchIcon from "/public/media/search_icon.svg";
+import {getProfessores} from "@/utils/api"
+import {Professor} from "@/types/Professor"
+
 
 export default function Home() {
+  const [professoresRecentes, setProfessoresRecentes] = useState<Professor[]>([]);
+  const [professores, setProfessores] = useState<Professor[]>([]);
+
+  useEffect(() => {
+    getProfessores({limit: 5, order_field: "updatedAt", order: "desc"}).then((response) => {
+      setProfessoresRecentes(response);
+    })
+  }, []);
+
+  useEffect(() => {
+    getProfessores({order_field: "nome"}).then((response) => {
+      setProfessores(response);
+    })
+  }, []);
+
+  const options_dropdown = [
+    {text: "Nome", order_field: "nome"}, 
+    {text: "Departamento", order_field: "departamento"},
+    {text: "Recentes", order_field: "updatedAt", order: "desc"},
+    {text: "Antigos", order_field: "updatedAt", order: "asc"},
+  ];
+
+  const reorder = async (option: {order_field: string, order?: string}) => {
+    getProfessores(option).then((response) => {
+      if(response){
+        setProfessores(response);
+      }
+    })
+  };
+
   return (
     <main className="grow flex flex-col gap-5 py-5 px-0.5 relative">
 
@@ -14,19 +49,20 @@ export default function Home() {
       <div className="m-1">
         <h2 className="md:text-3xl text-2xl">Recentemente avaliados</h2> 
 
-        <section className="flex gap-5 m-2 overflow-x-scroll p-1.5">
-          {Array.from({length: 15}).map((_, index) => <CardProfessor key={index} materia="matéria" nome="Nome"/>)}
+        <section className="flex gap-5 m-2 overflow-x-auto p-1.5 justify-around">
+          {professoresRecentes.map((professor, index) => <CardProfessor key={index} departamento={professor.departamento} nome={professor.nome}/>)}
         </section>
       </div>
       <div className="m-1">
         <div className="flex justify-between">
           <h2 className="md:text-3xl text-2xl">Todos os professores</h2>
-          <DropDown options={["Nome", "Matéria", "Departamento", "Recentes", "Antigos"]}/>
+          <DropDown onChange={reorder} options={options_dropdown} initial={options_dropdown[0]}/>
         </div>
         <section className="flex gap-5 m-2 flex-wrap  p-1.5 justify-center">
-          {Array.from({length: 21}).map((_, index) => <CardProfessor key={index} materia="matéria" nome="Nome"/>)}
+          {professores.map((professor, index) => <CardProfessor key={index} departamento={professor.departamento} nome={professor.nome}/>)}
         </section>
       </div>
     </main>
   );
 }
+
