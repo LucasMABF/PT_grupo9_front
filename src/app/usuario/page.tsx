@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+"use client";
+import React from 'react';
+import { useState } from "react";
 
 const LoginCadastro: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -53,7 +55,7 @@ const LoginCadastro: React.FC = () => {
                 <input
                   type="text"
                   id="nome"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  className=" text-black mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Digite seu nome"
                   value={nome}
                   onChange={(e) => setNome(e.target.value)}
@@ -66,7 +68,7 @@ const LoginCadastro: React.FC = () => {
                 <input
                   type="text"
                   id="curso"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  className="text-black mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Digite seu curso"
                   value={curso}
                   onChange={(e) => setCurso(e.target.value)}
@@ -79,7 +81,7 @@ const LoginCadastro: React.FC = () => {
                 <input
                   type="text"
                   id="departamento"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  className="text-black mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Digite seu departamento"
                   value={departamento}
                   onChange={(e) => setDepartamento(e.target.value)}
@@ -94,7 +96,7 @@ const LoginCadastro: React.FC = () => {
             <input
               type="email"
               id="email"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              className="text-black mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
               placeholder="Digite seu email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -107,7 +109,7 @@ const LoginCadastro: React.FC = () => {
             <input
               type="password"
               id="senha"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 text-black block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
               placeholder="Digite sua senha"
               value={senha}
               onChange={(e) => setSenha(e.target.value)}
