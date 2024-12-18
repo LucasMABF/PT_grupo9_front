@@ -10,23 +10,11 @@ export default function Post() {
   const [deleteComment, setDeleteComment] = useState(false);
 
   const [showModalComentario, setShowModalComentario] = useState(false);
-  const [comentarioAtual, setComentarioAtual] = useState(
-    "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.  "
-  );
-
-  const handleUpdateComentario = (novoComentario: string) => {
-    setComentarioAtual(novoComentario);
-    setShowModalComentario(false); // Fecha o modal após salvar
-  };
 
   return (
     <>
       {showModalComentario && (
-        <ModalComentario
-          onClose={() => setShowModalComentario(false)}
-          initialComment={comentarioAtual}
-          onSave={handleUpdateComentario} //funcao passada como prop
-        />
+        <ModalComentario onClose={() => setShowModalComentario(false)} />
       )}
 
       {/* botao de voltar */}
@@ -89,7 +77,7 @@ export default function Post() {
               </p>
             ) : (
               <p className="post-text  my-4  text-gray-800">
-                {comentarioAtual}
+                Espaço para comentário
               </p>
             )}
 
