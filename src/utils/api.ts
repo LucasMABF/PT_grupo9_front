@@ -7,6 +7,23 @@ const api = axios.create({
   baseURL: "http://localhost:3000",
 })
 
+export const createUser = async (user : User) =>{
+  try{
+    const res = await api.post("usuario", user);
+    return res.data;
+  }catch(e){
+    console.log(e);
+  }
+}
+
+export const getUser = async (id: number) => {
+  try{
+    const res = await api.get(`usuario/${id}`);
+    return res.data;
+  }catch(e){
+    console.log(e);
+  }
+}
 
 export const updateUser = async (user: Partial<User>, id:number) => {
   try{
@@ -45,9 +62,27 @@ export const getProfessores = async (args?: {limit?: number, order_field: string
   }
 }
 
+export const getProfessor = async (id: number) => {
+  try{
+    const res = await api.get(`professor/${id}`);
+    return res.data;
+  }catch(e){
+    console.log(e);
+  }
+}
+
 export const newAvaliacao = async (avaliacao : Avaliacao) =>{
   try{
     const res = await api.post("avaliacao", avaliacao);
+    return res.data;
+  }catch(e){
+    console.log(e);
+  }
+}
+
+export const getAvaliacao = async (id: number) => {
+  try{
+    const res = await api.get(`avaliacao/${id}`);
     return res.data;
   }catch(e){
     console.log(e);
@@ -126,6 +161,15 @@ export const updateComentario = async (comentario: Partial<Comentario>, id: numb
 export const getComentarios = async (id_avaliacao: number) => {
   try{
     const res = await api.get(`comentario/byavaliacao/${id_avaliacao}`);
+    return res.data;
+  }catch(e){
+    console.log(e);
+  }
+}
+
+export const getComentario = async (id: number) => {
+  try{
+    const res = await api.get(`comentario/${id}`);
     return res.data;
   }catch(e){
     console.log(e);
