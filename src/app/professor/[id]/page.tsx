@@ -1,10 +1,9 @@
 "use client";
 import Image from 'next/image'
-import Publicacao from '@/components/Post';
 import { loggedInContext } from "@/providers/loggedIn";
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { getProfessor } from '@/utils/api';
+import { getProfessor} from '@/utils/api';
 import ModalAvaliacao from '@/components/Modal-avaliacao';
 
 export default function Professor() {
@@ -78,13 +77,11 @@ export default function Professor() {
         </div>
 
       {/* publicacoes */}
-      <div className="post-section mt-4 p-4">
+      <div className="post-section mt-4 p-4 min-h-96">
         <hr/>
         <h4 className="my-4">Avaliações</h4>
 
-        <Publicacao nome="nomedeusuario" professor="professor" materia="materia" conteudo="conteudo da postagem"></Publicacao>
-        <Publicacao nome="nomedeusuario" professor="professor" materia="materia" conteudo="conteudo da postagem"></Publicacao>
-
+        {/* INSERIR AQUI AS AVALIACOES SOBRE O PROFESSOR*/}
       
       </div>
     </div>

@@ -109,7 +109,7 @@ export default function Perfil() {
         </div>
 
       {/* publicacoes */}
-      <div className="post-section mt-4 p-4">
+      <div className="post-section mt-4 p-4 min-h-96">
         <hr/>
         <h4 className="my-4">Publicações</h4>
 

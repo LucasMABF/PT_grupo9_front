@@ -31,6 +31,9 @@ const ModalAvaliacao: React.FC<ModalAvaliacaoProps> = ({
         conteudo,
         disciplinaId,
         professorId,
+        nome: "Nome do aluno", // Replace with the actual name if available
+        disciplina: disciplinas.find(d => d.id === disciplinaId)?.nome || "",
+        professor: "Nome do professor" // Replace with the actual professor name if available
     };
 
     try {
