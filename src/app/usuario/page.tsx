@@ -1,6 +1,8 @@
 "use client";
 import React from 'react';
 import { useState } from "react";
+import { createUser } from '@/utils/api';
+import { User } from '@/types/User';
 
 const LoginCadastro: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -20,7 +22,7 @@ const LoginCadastro: React.FC = () => {
     setDepartamento("");
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     if (isLogin) {
@@ -36,8 +38,32 @@ const LoginCadastro: React.FC = () => {
         return;
       }
       alert(`Cadastro realizado com sucesso!\\nNome: ${nome}`);
-    }
+    
+  
+
+  // Criacao do novo usuario
+  const newUser: User = {
+    nome,
+    email,
+    senha,
+    curso,
+    departamento,
   };
+
+  try {
+    const response = await createUser(newUser);
+    if (response) {
+      alert("Usuário criado com sucesso!");
+      toggleMode(); // vai pra tela de login apos o cadastro
+    } else {
+      alert("Erro ao criar usuário!");
+    }
+  } catch (error) {
+    console.error("Erro ao cadastrar o usuário:", error);
+    alert("Erro ao criar usuário! Verifique os dados e tente novamente.");
+    }
+  }
+};
 
   return (
     <div className="bg-gray-100 flex justify-center items-center h-screen">
