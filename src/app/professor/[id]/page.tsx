@@ -35,7 +35,7 @@ export default function Professor() {
 
   return (  
     <>
-
+  {/* Modal de avaliação  FALTA ENVIAR O ID DO USUARIO QUE NAO CONSEGUI IMPORTAR*/}
     {showModalAvaliacao ? (
         <ModalAvaliacao  
           professorId={Number(id)}

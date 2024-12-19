@@ -3,23 +3,48 @@ import Image from 'next/image'
 import Publicacao from '@/components/Post';
 import ModalPerfil from '@/components/Modal-perfil';
 import { loggedInContext } from "@/providers/loggedIn";
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
+import { useParams } from 'next/navigation';
+import { getUser } from '@/utils/api';
 
-interface Props {
-  nome: string
-  curso: string
-  departamento: string
-  email: string
-}
-export default function Perfil(props: Props) {
-
+export default function Perfil() {
+  const {id} = useParams(); // Obtem o id do usuario;
   const [showModalPerfil, setShowModalPerfil] = useState(false);
   const {loggedIn} = useContext(loggedInContext);
+
+  const [usuario, setUsuario] = useState({
+    nome: "",
+    curso: "",
+    email: "",
+    departamento: "",
+    avaliacoes: [],
+  })
+
+  // Busca os dados do usuario ao montar o componente
+  useEffect(() => {
+    const fetchUsuario = async () => {
+      if (id) {
+        const data = await getUser(Number(id)); // Certifique-se de que o ID seja um número
+        if (data) {
+          setUsuario(data);
+        }
+      }
+    };
+
+  fetchUsuario();
+  }, [id]);
 
   return (  
     <>
     {showModalPerfil ? (
-      <ModalPerfil onClose={() => setShowModalPerfil(false)}></ModalPerfil>
+      <ModalPerfil 
+      onClose={() => setShowModalPerfil(false)}
+      usuarioId={Number(id)}
+      nome={usuario.nome}
+      email={usuario.email}
+      departamento={usuario.departamento}
+      curso={usuario.curso}
+      ></ModalPerfil>
     ) : (<div></div>)}
     
     <div className=" body font-arial bg-green1 text-gray-800 m-0 p-0">
@@ -37,9 +62,9 @@ export default function Perfil(props: Props) {
 
         <Image width={100} height={20} src="/unb-banner.jpg" alt="banner" className="profile-banner w-full h-52"></Image>
         <Image height={500} width= {500} src="/profile-picture.webp" alt="Avatar" className="profile-pic w-52 h-52 rounded-full border-4 border-color2 bg-green-200 -mt-28 mx-auto" />
-        <h1 className="my-2.5 text-2xl font-bold">{props.nome} João da Silva</h1>
-        <p className="my-2 text-base">{props.curso} Ciência da Computação / {props.departamento} Dept. Ciência da Computação</p>
-        <p className="my-2 text-base">{props.email} jacinto.pinto.24@cjr.org.br</p>
+        <h1 className="my-2.5 text-2xl font-bold">{usuario.nome} João da Silva</h1>
+        <p className="my-2 text-base">{usuario.curso} Ciência da Computação / {usuario.departamento} Dept. Ciência da Computação</p>
+        <p className="my-2 text-base">{usuario.email} jacinto.pinto.24@cjr.org.br</p>
       
       {/* Acoes de perfil para LOGADO */}
       {loggedIn ? (
