@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
-import { loggedInContext } from "../providers/loggedIn";
-import ModalComentario from "../components/Modal-comentario";
+import { loggedInContext } from "@/providers/loggedIn";
+import ModalComentario from "@/components/Modal-comentario";
 import { useState, useContext } from "react";
 
 export default function Post() {

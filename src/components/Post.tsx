@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from  'next/image'
-import ModalComentario from '../components/Modal-comentario';
-import { loggedInContext } from "../providers/loggedIn";
+import ModalComentario from './Modal-comentario';
+import { loggedInContext } from "@/providers/loggedIn";
 import { useState, useContext } from 'react';
 
 interface Props {

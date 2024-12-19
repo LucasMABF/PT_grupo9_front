@@ -1,23 +1,37 @@
 "use client"
-import React, {useState} from "react";
-
-interface Props{    
-  options: string[];
+import React, {useState, useEffect} from "react";
+ 
+interface Props<T extends Option>{    
+  options: T[];
+  onChange: (arg0: T) => Promise<void>;
+  initial: T;
 }
 
-const DropDown = (props: Props) => {
+interface Option{
+  text: string,
+}
+
+
+const DropDown = <T extends Option,>(props: Props<T>) => {
   const [isOpen, SetIsOpen] = useState(false);
-  const [selected, setSelected] = useState("Nome");
+  const [selected, setSelected] = useState<T>(props.initial);
   
+
   const opt = props?.options ? props.options : [];
 
   const toggle = () => {
     SetIsOpen((prev) => !prev);
   }
 
-  const handleClick = (e : React.MouseEvent<HTMLElement>) => {
-    console.log((e.target as HTMLInputElement).innerText);
-    setSelected((e.target as HTMLInputElement).innerText);
+  useEffect(() => {
+    if(props.onChange){
+      props.onChange(selected);
+    }
+  }, [selected])
+  
+
+  const handleClick = (option: T) => {
+    setSelected(option);
     toggle();
   }
 
@@ -29,7 +43,7 @@ const DropDown = (props: Props) => {
       <div className={`absolute top-11 z-30 bg-green-600 rounded-lg p-1.5 w-36 flex flex-col ${isOpen? "flex": "hidden"}`}>
         <ul>
           {opt.map((o) => {
-              return <li key={o} className={`py-0.5 rounded-sm hover:bg-green-400 hover:cursor-pointer ${selected == o? "bg-green-500" : ""}`} onClick={handleClick}>{o}</li>
+              return <li key={o.text} className={`py-0.5 rounded-sm hover:bg-green-400 hover:cursor-pointer ${selected.text == o.text? "bg-green-500" : ""}`} onClick={() => handleClick(o)}>{o.text}</li>
             })}
         </ul>
       </div>

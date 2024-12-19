@@ -1,10 +1,10 @@
 "use client"
-import {createContext, useState, ReactNode, Dispatch, SetStateAction, useEffect} from "react";
+import {createContext, useState, ReactNode, useEffect} from "react";
 
 type log = {
-  loggedIn: boolean;
-  login: Dispatch<SetStateAction<boolean>>;
-  logout: Dispatch<SetStateAction<boolean>>;
+  loggedIn: boolean,
+  login: () => void,
+  logout: () => void,
 }
 
 const loggedInContext = createContext<log>({loggedIn: false, login: () => {}, logout: () => {}}); 

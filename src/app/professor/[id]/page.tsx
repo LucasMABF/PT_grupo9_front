@@ -1,7 +1,7 @@
 "use client";
 import Image from 'next/image'
-import Publicacao from '../../components/Post';
-import { loggedInContext } from "../../providers/loggedIn";
+import Publicacao from '@/components/Post';
+import { loggedInContext } from "@/providers/loggedIn";
 import { useContext } from 'react';
 import { useParams } from 'next/navigation';
 
