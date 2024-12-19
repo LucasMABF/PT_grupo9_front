@@ -1,8 +1,8 @@
 "use client";
 import Image from "next/image";
-import { loggedInContext } from "../providers/loggedIn";
-import ModalComentario from "../components/Modal-comentario";
-import Comentario from "../components/Comentario";
+import { loggedInContext } from "@/providers/loggedIn";
+import ModalComentario from "@/components/Modal-comentario";
+import Comentario from "@/components/Comentario";
 import { useState, useContext } from "react";
 
 interface Props {
