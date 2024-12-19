@@ -66,7 +66,7 @@ const LoginCadastro: React.FC = () => {
 };
 
   return (
-    <div className="bg-gray-100 flex justify-center items-center h-screen">
+    <div className=" bg-gradient-to-r from-green-900 via-green-600 to-green-900 flex justify-center items-center h-screen">
       <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
         <h1 className="text-2xl font-bold text-gray-700 text-center mb-6">
           {isLogin ? "Login" : "Cadastro de Usuário"}
