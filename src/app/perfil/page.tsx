@@ -6,28 +6,56 @@ import { loggedInContext } from "@/providers/loggedIn";
 import { useState, useContext, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { getUser } from '@/utils/api';
+import { getAvaliacoes } from '@/utils/api';
+import { Avaliacao } from '@/types/Avaliacao';
 
 export default function Perfil() {
   const {id} = useParams(); // Obtem o id do usuario;
   const [showModalPerfil, setShowModalPerfil] = useState(false);
   const {loggedIn} = useContext(loggedInContext);
-
+  const [avaliacoes, setAvaliacoes] = useState<Avaliacao[]>([]);
   const [usuario, setUsuario] = useState({
     nome: "",
     curso: "",
     email: "",
     departamento: "",
-    avaliacoes: [],
-  })
+  });
+
+  // Busca as avaliacoes do usuario ao montar o componente
+  useEffect(() => {
+    const fetchAvaliacoes = async () => {
+      try {
+          if (id) {
+            const response = await getAvaliacoes({
+              limit: 5,
+              order_field: "updatedAt",
+              order: "desc",
+            });
+            if (response) {
+              // Filtrar avaliacoes apenas do usuario
+              const userAvaliacoes = response.filter((avaliacao: Avaliacao) => avaliacao.userId === Number(id));
+              setAvaliacoes(userAvaliacoes);
+            }
+          }
+      } catch (e) {
+        console.error("Erro ao buscar avaliações:", e);
+      }
+    };
+    fetchAvaliacoes();
+  }, [id]);
 
   // Busca os dados do usuario ao montar o componente
   useEffect(() => {
     const fetchUsuario = async () => {
+      try {
       if (id) {
         const data = await getUser(Number(id)); // Certifique-se de que o ID seja um número
         if (data) {
           setUsuario(data);
         }
+      } 
+    } catch (e) {
+        console.error("Erro ao buscar usuário:", e);
       }
     };
 
@@ -85,10 +113,21 @@ export default function Perfil() {
         <hr/>
         <h4 className="my-4">Publicações</h4>
 
-        <Publicacao nome="nomedeusuario" professor="professor" materia="materia" conteudo="conteudo da postagem"></Publicacao>
-        <Publicacao nome="nomedeusuario" professor="professor" materia="materia" conteudo="conteudo da postagem"></Publicacao>
+        {avaliacoes.length > 0 ? (
+          avaliacoes.map((avaliacao, index) => (
+            <Publicacao
+              key={index}
+              id={avaliacao.userId}
+              nome={avaliacao.nome}
+              professor={avaliacao.professor}
+              materia={avaliacao.disciplina}
+              conteudo={avaliacao.conteudo} 
+              />
+          ))
+        ) : (
+          <p>Ainda não há publicações...</p>
+        ) }
 
-      
       </div>
     </div>
   </div>
