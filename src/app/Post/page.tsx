@@ -3,25 +3,29 @@ import Image from "next/image";
 import { loggedInContext } from "@/providers/loggedIn";
 import ModalComentario from "@/components/Modal-comentario";
 import Comentario from "@/components/Comentario";
+import ModalExcluirComentario from "@/components/Modal-Excluir-comentáio";
 import { useState, useContext } from "react";
 
 interface Props {
-  nome: string
-  professor: string
-  materia: string
-  conteudo: string
+  nome: string;
+  professor: string;
+  materia: string;
+  conteudo: string;
 }
 export default function Post(props: Props) {
   const [showButtonComments, setShowButtonComments] = useState(false);
   const { loggedIn } = useContext(loggedInContext);
-  const [deleteComment, setDeleteComment] = useState(false);
-
+  const [excluirComentario, setExcluirComentario] = useState(false);
   const [showModalComentario, setShowModalComentario] = useState(false);
 
   return (
     <>
       {showModalComentario && (
         <ModalComentario onClose={() => setShowModalComentario(false)} />
+      )}
+
+      {excluirComentario && (
+        <ModalExcluirComentario onClose={() => setExcluirComentario(false)} />
       )}
 
       {/* botao de voltar */}
@@ -50,23 +54,19 @@ export default function Post(props: Props) {
                 </span>
 
                 {/*Deletando estrelas */}
-                {deleteComment ? (
-                  " "
-                ) : (
-                  <span className="estrelas text-lg ml-3">
-                    <span className="estrela1 m-0.5 text-yellow-500">
-                      &#9733;
-                    </span>
-                    <span className="estrela2 m-0.5 text-yellow-500">
-                      &#9733;
-                    </span>
-                    <span className="estrela3 m-0.5 text-yellow-500">
-                      &#9733;
-                    </span>
-                    <span className="estrela4 m-0.5">&#9733;</span>
-                    <span className="estrela5 m-0.5">&#9733;</span>
+                <span className="estrelas text-lg ml-3">
+                  <span className="estrela1 m-0.5 text-yellow-500">
+                    &#9733;
                   </span>
-                )}
+                  <span className="estrela2 m-0.5 text-yellow-500">
+                    &#9733;
+                  </span>
+                  <span className="estrela3 m-0.5 text-yellow-500">
+                    &#9733;
+                  </span>
+                  <span className="estrela4 m-0.5">&#9733;</span>
+                  <span className="estrela5 m-0.5">&#9733;</span>
+                </span>
               </div>
             </div>
 
@@ -77,16 +77,9 @@ export default function Post(props: Props) {
               <span className="disciplina">{props.materia} disciplina</span>
             </span>
 
-            {/*Botão de excluir mensagem */}
-            {deleteComment ? (
-              <p className="post-text text-center my-4  text-gray-800">
-                Está mensagem foi apagada
-              </p>
-            ) : (
-              <p className="post-text  my-4  text-gray-800">
-                {props.conteudo} espaco para conteudo
-              </p>
-            )}
+            <p className="post-text  my-4  text-gray-800">
+              {props.conteudo} espaco para conteudo
+            </p>
 
             <div className="w-full text-black flex justify-between">
               <button
@@ -108,7 +101,7 @@ export default function Post(props: Props) {
                       className="cursor-pointer rounded-sm hover:bg-blue-400"
                     ></Image>
                   </button>
-                  <button onClick={() => setDeleteComment(true)}>
+                  <button onClick={() => setExcluirComentario(true)}>
                     <Image
                       width={20}
                       height={20}
@@ -124,7 +117,18 @@ export default function Post(props: Props) {
 
           {showButtonComments && (
             <>
-              <Comentario nome="nome" data="data" conteudo="conteudo"></Comentario>
+              <div className="my-3 border border-gray-950  w-30%"></div>
+              <Comentario
+                nome="nome"
+                data="data"
+                conteudo="conteudo"
+              ></Comentario>
+
+              <Comentario
+                nome="nome"
+                data="data"
+                conteudo="conteudo"
+              ></Comentario>
             </>
           )}
         </div>
