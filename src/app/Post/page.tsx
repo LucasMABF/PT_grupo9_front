@@ -1,10 +1,17 @@
 "use client";
 import Image from "next/image";
-import { loggedInContext } from "@/providers/loggedIn";
-import ModalComentario from "@/components/Modal-comentario";
+import { loggedInContext } from "../providers/loggedIn";
+import ModalComentario from "../components/Modal-comentario";
+import Comentario from "../components/Comentario";
 import { useState, useContext } from "react";
 
-export default function Post() {
+interface Props {
+  nome: string
+  professor: string
+  materia: string
+  conteudo: string
+}
+export default function Post(props: Props) {
   const [showButtonComments, setShowButtonComments] = useState(false);
   const { loggedIn } = useContext(loggedInContext);
   const [deleteComment, setDeleteComment] = useState(false);
@@ -39,7 +46,7 @@ export default function Post() {
 
               <div>
                 <span className="user-name text-lg font-bold text-gray-900">
-                  Jacinto Pinto
+                  {props.nome} Joao da Silva
                 </span>
 
                 {/*Deletando estrelas */}
@@ -66,8 +73,8 @@ export default function Post() {
             <span className="post-info text-sm text-black">
               <span className="data">23/12/2024</span>, às{" "}
               <span className="hora">21:42</span> -{" "}
-              <span className="professor">Dumbledore</span> -{" "}
-              <span className="disciplina">Magia Negra</span>
+              <span className="professor">{props.professor} professor</span> -{" "}
+              <span className="disciplina">{props.materia} disciplina</span>
             </span>
 
             {/*Botão de excluir mensagem */}
@@ -77,7 +84,7 @@ export default function Post() {
               </p>
             ) : (
               <p className="post-text  my-4  text-gray-800">
-                Espaço para comentário
+                {props.conteudo} espaco para conteudo
               </p>
             )}
 
@@ -117,61 +124,7 @@ export default function Post() {
 
           {showButtonComments && (
             <>
-              <div className="border-t border-black my-4"></div>
-              <div
-                className="bg-color1  mx-4 py-6 rounded-[50px] shadow-lg animate-fade-up
-                animate-once"
-              >
-                <div className="flex  px-4 items-center">
-                  <Image
-                    width={40}
-                    height={40}
-                    src="/Perfil_secundario.jpg"
-                    alt="Avatar"
-                    className="post-avatar w-10 h-10 rounded-full mr-3"
-                  />
-                  <div>
-                    <span className="user-name font-bold text-gray-900">
-                      Baby Dinossauro
-                    </span>
-                    <span className="text-sm ml-3 text-black">
-                      <span className="data ">25/01/2025</span>, ás{" "}
-                      <span className="hora ">00:00</span>
-                    </span>
-                  </div>
-                </div>
-
-                <p className="post-text my-3 pl-10 text-gray-800">
-                  Valeu pela dica
-                </p>
-              </div>
-
-              {/*Caixa de comentário de outro usuário */}
-
-              <div className="bg-color1 my-6 mx-5 py-6 rounded-[50px] shadow-lg">
-                <div className="flex px-4 items-center">
-                  <Image
-                    width={40}
-                    height={40}
-                    src="/Perfil_secundario.jpg"
-                    alt="Avatar"
-                    className="post-avatar w-10 h-10 rounded-full mr-3"
-                  />
-                  <div>
-                    <span className="user-name font-bold text-gray-900">
-                      Baby Dinossauro
-                    </span>
-                    <span className="text-sm ml-3 text-black">
-                      <span className="data ">25/01/2025</span>, ás{" "}
-                      <span className="hora ">00:00</span>
-                    </span>
-                  </div>
-                </div>
-
-                <p className="post-text my-3 pl-10 text-gray-800">
-                  Semestre que vem tentarei pegar matéria com esse professor !
-                </p>
-              </div>
+              <Comentario nome="nome" data="data" conteudo="conteudo"></Comentario>
             </>
           )}
         </div>
