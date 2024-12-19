@@ -142,6 +142,7 @@ export default function Post() {
 
           {showButtonComments && (
             <>
+            
               <Comentario nome="nome" data="data" conteudo="conteudo"></Comentario>
             </>
           )}

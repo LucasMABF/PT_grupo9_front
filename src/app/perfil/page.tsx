@@ -90,9 +90,9 @@ export default function Perfil() {
 
         <Image width={100} height={20} src="/unb-banner.jpg" alt="banner" className="profile-banner w-full h-52"></Image>
         <Image height={500} width= {500} src="/profile-picture.webp" alt="Avatar" className="profile-pic w-52 h-52 rounded-full border-4 border-color2 bg-green-200 -mt-28 mx-auto" />
-        <h1 className="my-2.5 text-2xl font-bold">{usuario.nome} João da Silva</h1>
-        <p className="my-2 text-base">{usuario.curso} Ciência da Computação / {usuario.departamento} Dept. Ciência da Computação</p>
-        <p className="my-2 text-base">{usuario.email} jacinto.pinto.24@cjr.org.br</p>
+        <h1 className="my-2.5 text-2xl font-bold">{usuario.nome} nome</h1>
+        <p className="my-2 text-base">{usuario.curso} curso / {usuario.departamento}depto</p>
+        <p className="my-2 text-base">{usuario.email} email</p>
       
       {/* Acoes de perfil para LOGADO */}
       {loggedIn ? (
@@ -125,7 +125,7 @@ export default function Perfil() {
               />
           ))
         ) : (
-          <p>Ainda não há publicações...</p>
+          <p className="mx-4 my-10 text-gray-400">Ainda não há publicações...</p>
         ) }
 
       </div>
