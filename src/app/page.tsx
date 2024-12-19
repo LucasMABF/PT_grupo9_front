@@ -14,13 +14,17 @@ export default function Home() {
 
   useEffect(() => {
     getProfessores({limit: 5, order_field: "updatedAt", order: "desc"}).then((response) => {
-      setProfessoresRecentes(response);
+      if(response){
+        setProfessoresRecentes(response);
+      }
     })
   }, []);
 
   useEffect(() => {
     getProfessores({order_field: "nome"}).then((response) => {
-      setProfessores(response);
+      if(response){
+        setProfessores(response);
+      }
     })
   }, []);
 
@@ -50,7 +54,11 @@ export default function Home() {
         <h2 className="md:text-3xl text-2xl">Recentemente avaliados</h2> 
 
         <section className="flex gap-5 m-2 overflow-x-auto p-1.5 justify-around">
-          {professoresRecentes.map((professor, index) => <CardProfessor key={index} id={professor.id} departamento={professor.departamento} nome={professor.nome}/>)}
+          {
+            professoresRecentes.length? 
+            professoresRecentes.map((professor, index) => <CardProfessor key={index} id={professor.id} departamento={professor.departamento} nome={professor.nome}/>) 
+            : Array.from({length: 15}).map((_, index) => <CardProfessor key={index} id={index} departamento="Departamento" nome="Nome"/>)
+          }
         </section>
       </div>
       <div className="m-1">
@@ -59,7 +67,11 @@ export default function Home() {
           <DropDown onChange={reorder} options={options_dropdown} initial={options_dropdown[0]}/>
         </div>
         <section className="flex gap-5 m-2 flex-wrap  p-1.5 justify-center">
-          {professores.map((professor, index) => <CardProfessor key={index} departamento={professor.departamento} id={professor.id} nome={professor.nome}/>)}
+          {
+            professores.length?
+            professores.map((professor, index) => <CardProfessor key={index} departamento={professor.departamento} id={professor.id} nome={professor.nome}/>)
+            : Array.from({length: 21}).map((_, index) => <CardProfessor key={index} id={index} departamento="Departamento" nome="Nome"/>)
+          }
         </section>
       </div>
     </main>
