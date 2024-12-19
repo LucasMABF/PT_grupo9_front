@@ -5,6 +5,7 @@ import { loggedInContext } from "@/providers/loggedIn";
 import { useState, useContext } from 'react';
 
 interface Props {
+  id: number,
   nome: string
   professor: string
   materia: string
