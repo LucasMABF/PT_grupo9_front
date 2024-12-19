@@ -2,22 +2,50 @@
 import Image from 'next/image'
 import Publicacao from '@/components/Post';
 import { loggedInContext } from "@/providers/loggedIn";
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
+import { getProfessor } from '@/utils/api';
+import ModalAvaliacao from '@/components/Modal-avaliacao';
 
-interface Props {
-  nome: string
-  departamento: string
-  disciplinas: string
-}
-export default function Professor(props: Props) {
-  const {id} = useParams();
-  console.log(id);
+export default function Professor() {
+
+  const {id} = useParams(); // Obtem o id do professor 
   const {loggedIn} = useContext(loggedInContext);
+  const [showModalAvaliacao, setShowModalAvaliacao] = useState(false);
+
+  const[professor, setProfessor] = useState({
+    nome: "",
+    departamento: "",
+    disciplinas: [],
+  });
+
+   // Busca os dados do professor ao montar o componente
+   useEffect(() => {
+    const fetchProfessor = async () => {
+      if (id) {
+        const data = await getProfessor(Number(id)); // Certifique-se de que o ID seja um número
+        if (data) {
+          setProfessor(data);
+        }
+      }
+    };
+
+    fetchProfessor();
+  }, [id]);
 
   return (  
     <>
-    
+
+    {showModalAvaliacao ? (
+        <ModalAvaliacao  
+          professorId={Number(id)}
+          disciplinas={professor.disciplinas}
+          userId={1}
+          onClose={() => setShowModalAvaliacao(false)}>
+
+        </ModalAvaliacao>
+            
+        ) : (<div></div>)}
     <div className=" body font-arial bg-green1 text-gray-800 m-0 p-0">
     
     {/* botao de voltar */}
@@ -33,13 +61,14 @@ export default function Professor(props: Props) {
 
         <Image width={100} height={20} src="/unb-banner.jpg" alt="banner" className="profile-banner w-full h-52"></Image>
         <Image height={500} width= {500} src="/profile-picture.webp" alt="Avatar" className="profile-pic w-52 h-52 rounded-full border-4 border-color2 bg-green-200 -mt-28 mx-auto" />
-        <h1 className="my-2.5 text-2xl font-bold">{props.nome} Professor</h1>
-        <p>{props.departamento} Departamento</p>
+        <h1 className="my-2.5 text-2xl font-bold">{professor.nome} ...</h1>
+        <p>{professor.departamento}...</p>
       
       {/* Acoes de avaliar para LOGADO */}
       {loggedIn ? (
         <div className="profile-actions text-white my-4 w-3/5 mx-auto flex justify-around">
           <button
+            onClick={() => setShowModalAvaliacao(true)}
             className="edit-btn py-2 px-5 bg-green-700 rounded-lg cursor-pointer hover:bg-green-800">
             Avaliar
           </button>

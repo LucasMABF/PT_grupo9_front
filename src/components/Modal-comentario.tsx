@@ -5,7 +5,7 @@ interface ModalComentarioProps {
     onClose: () => void;
 }
 
-const ModalComentario: React.FC<ModalComentarioProps> = ({ onClose}) => {
+const ModalComentario: React.FC<ModalComentarioProps> = ({ onClose }) => {
     const [comentario, setComentario] = useState("");
 
     return (
