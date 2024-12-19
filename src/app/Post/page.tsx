@@ -3,20 +3,38 @@ import Image from "next/image";
 import { loggedInContext } from "@/providers/loggedIn";
 import ModalComentario from "@/components/Modal-comentario";
 import Comentario from "@/components/Comentario";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
+import { getAvaliacao } from "@/utils/api";
+import { useParams } from "next/navigation";
 
-interface Props {
-  nome: string
-  professor: string
-  materia: string
-  conteudo: string
-}
-export default function Post(props: Props) {
+
+export default function Post() {
+  const {id} = useParams(); // Obtem o id do user da avaliacao
   const [showButtonComments, setShowButtonComments] = useState(false);
   const { loggedIn } = useContext(loggedInContext);
   const [deleteComment, setDeleteComment] = useState(false);
-
   const [showModalComentario, setShowModalComentario] = useState(false);
+
+  const [avaliacao, setAvaliacao] = useState({
+    nome: "",
+    materia: "",
+    professor: "",
+    data: "",
+    conteudo: "",
+  });
+
+  // Busca os dados da avaliacao ao montar o componente
+  useEffect(() => {
+    const fetchAvaliacao = async () => {
+      if (id) {
+        const data = await getAvaliacao(Number(id)); // Certifique-se de que o ID seja um número
+        if (data) {
+          setAvaliacao(data);
+        }
+      }
+    };
+    fetchAvaliacao();
+  }, [id]);
 
   return (
     <>
@@ -46,7 +64,7 @@ export default function Post(props: Props) {
 
               <div>
                 <span className="user-name text-lg font-bold text-gray-900">
-                  {props.nome} Joao da Silva
+                  {avaliacao.nome} Joao da Silva
                 </span>
 
                 {/*Deletando estrelas */}
@@ -73,8 +91,8 @@ export default function Post(props: Props) {
             <span className="post-info text-sm text-black">
               <span className="data">23/12/2024</span>, às{" "}
               <span className="hora">21:42</span> -{" "}
-              <span className="professor">{props.professor} professor</span> -{" "}
-              <span className="disciplina">{props.materia} disciplina</span>
+              <span className="professor">{avaliacao.professor} professor</span> -{" "}
+              <span className="disciplina">{avaliacao.materia} disciplina</span>
             </span>
 
             {/*Botão de excluir mensagem */}
@@ -84,7 +102,7 @@ export default function Post(props: Props) {
               </p>
             ) : (
               <p className="post-text  my-4  text-gray-800">
-                {props.conteudo} espaco para conteudo
+                {avaliacao.conteudo} espaco para conteudo
               </p>
             )}
 
