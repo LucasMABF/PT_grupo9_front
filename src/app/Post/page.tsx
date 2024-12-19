@@ -53,7 +53,6 @@ export default function Post(props: Props) {
                   {props.nome} Joao da Silva
                 </span>
 
-                {/*Deletando estrelas */}
                 <span className="estrelas text-lg ml-3">
                   <span className="estrela1 m-0.5 text-yellow-500">
                     &#9733;
