@@ -1,26 +1,22 @@
 "use client";
 import Image from 'next/image'
 import Publicacao from '@/components/Post';
-import ModalPerfil from '@/components/Modal-perfil';
 import { loggedInContext } from "@/providers/loggedIn";
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
+import { useParams } from 'next/navigation';
 
 interface Props {
   nome: string
-  curso: string
   departamento: string
-  email: string
+  disciplinas: string
 }
-export default function Perfil(props: Props) {
-
-  const [showModalPerfil, setShowModalPerfil] = useState(false);
+export default function Professor(props: Props) {
+  const {id} = useParams();
+  console.log(id);
   const {loggedIn} = useContext(loggedInContext);
 
   return (  
     <>
-    {showModalPerfil ? (
-      <ModalPerfil onClose={() => setShowModalPerfil(false)}></ModalPerfil>
-    ) : (<div></div>)}
     
     <div className=" body font-arial bg-green1 text-gray-800 m-0 p-0">
     
@@ -37,19 +33,16 @@ export default function Perfil(props: Props) {
 
         <Image width={100} height={20} src="/unb-banner.jpg" alt="banner" className="profile-banner w-full h-52"></Image>
         <Image height={500} width= {500} src="/profile-picture.webp" alt="Avatar" className="profile-pic w-52 h-52 rounded-full border-4 border-color2 bg-green-200 -mt-28 mx-auto" />
-        <h1 className="my-2.5 text-2xl font-bold">{props.nome} João da Silva</h1>
-        <p className="my-2 text-base">{props.curso} Ciência da Computação / {props.departamento} Dept. Ciência da Computação</p>
-        <p className="my-2 text-base">{props.email} jacinto.pinto.24@cjr.org.br</p>
+        <h1 className="my-2.5 text-2xl font-bold">{props.nome} Professor</h1>
+        <p>{props.departamento} Departamento</p>
       
-      {/* Acoes de perfil para LOGADO */}
+      {/* Acoes de avaliar para LOGADO */}
       {loggedIn ? (
         <div className="profile-actions text-white my-4 w-3/5 mx-auto flex justify-around">
           <button
-            onClick={() => setShowModalPerfil(true)} 
             className="edit-btn py-2 px-5 bg-green-700 rounded-lg cursor-pointer hover:bg-green-800">
-            Editar Perfil
+            Avaliar
           </button>
-          <button className="delete-btn py-2 px-5 bg-red-600 rounded-lg cursor-pointer hover:bg-red-800">Excluir Perfil</button>
         </div>
       
       ) : (<div></div>)}
@@ -58,7 +51,7 @@ export default function Perfil(props: Props) {
       {/* publicacoes */}
       <div className="post-section mt-4 p-4">
         <hr/>
-        <h4 className="my-4">Publicações</h4>
+        <h4 className="my-4">Avaliações</h4>
 
         <Publicacao nome="nomedeusuario" professor="professor" materia="materia" conteudo="conteudo da postagem"></Publicacao>
         <Publicacao nome="nomedeusuario" professor="professor" materia="materia" conteudo="conteudo da postagem"></Publicacao>

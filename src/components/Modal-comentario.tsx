@@ -1,29 +1,17 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 interface ModalComentarioProps {
     onClose: () => void;
-    initialComment: string; //comentario pre existente do post
-    onSave: (novoComentario: string) => void;
 }
 
-const ModalComentario: React.FC<ModalComentarioProps> = ({ onClose, initialComment, onSave }) => {
+const ModalComentario: React.FC<ModalComentarioProps> = ({ onClose}) => {
     const [comentario, setComentario] = useState("");
 
-    
-    useEffect(() => { //inicializa o estado com o comentario inicial
-        setComentario(initialComment);
-    }, [initialComment]);
-
-    const handleSave = (event: React.FormEvent) => {
-        event.preventDefault(); // nao deixa a pagina reiniciar
-        onSave(comentario);
-    };
- 
     return (
         <>
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <form onSubmit={handleSave} className="evaluation-container bg-green-700 flex flex-col items-center justify-center px-10 py-12 w-3/5 rounded-xl">
+            <form className="evaluation-container bg-green-700 flex flex-col items-center justify-center px-10 py-12 w-3/5 rounded-xl">
                     <textarea 
                         value={comentario} 
                         onChange={(event) => setComentario(event.target.value)} 
