@@ -5,12 +5,16 @@ import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { getProfessor} from '@/utils/api';
 import ModalAvaliacao from '@/components/Modal-avaliacao';
+import { getAvaliacoes } from '@/utils/api';
+import Publicacao from '@/components/Post';
+import { Avaliacao } from '@/types/Avaliacao';
 
 export default function Professor() {
 
   const {id} = useParams(); // Obtem o id do professor 
   const {loggedIn} = useContext(loggedInContext);
   const [showModalAvaliacao, setShowModalAvaliacao] = useState(false);
+  const [avaliacoes, setAvaliacoes] = useState<Avaliacao[]>([]);
 
   const[professor, setProfessor] = useState({
     nome: "",
@@ -31,6 +35,25 @@ export default function Professor() {
 
     fetchProfessor();
   }, [id]);
+
+    // Busca as avaliações do professor ao montar o componente
+    useEffect(() => {
+      const fetchAvaliacoes = async () => {
+        if (id) {
+          const response = await getAvaliacoes({
+            professorId: Number(id),
+            limit: 10,
+            order_field: "updatedAt",
+            order: "desc",
+          });
+          if (response) {
+            const professorAvaliacoes = response.filter((avaliacao: Avaliacao) => avaliacao.professorId === Number(id));
+            setAvaliacoes(professorAvaliacoes);
+          }
+        }
+      }
+      fetchAvaliacoes();
+    }, [id]);
 
   return (  
     <>
@@ -81,7 +104,19 @@ export default function Professor() {
         <hr/>
         <h4 className="my-4">Avaliações</h4>
 
-        {/* INSERIR AQUI AS AVALIACOES SOBRE O PROFESSOR*/}
+        {avaliacoes.length > 0 ? (
+          avaliacoes.map((avaliacao, index) => (
+            <Publicacao
+              key={index}
+              id={avaliacao.userId}
+              nome={avaliacao.nome}
+              professor={avaliacao.professor}
+              materia={avaliacao.disciplina}
+              conteudo={avaliacao.conteudo} />
+          ))
+        ) : (
+          <p className="text-center m-4 text-gray-500">Nenhuma avaliação encontrada...</p>
+        )}
       
       </div>
     </div>

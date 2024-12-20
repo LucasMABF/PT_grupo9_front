@@ -2,10 +2,12 @@
 import Image from "next/image";
 import { loggedInContext } from "@/providers/loggedIn";
 import ModalComentario from "@/components/Modal-comentario";
-import Comentario from "@/components/Comentario";
+import ComponentComentario from "@/components/Comentario";
 import { useState, useContext, useEffect } from "react";
 import { getAvaliacao } from "@/utils/api";
 import { useParams } from "next/navigation";
+import { Comentario } from "@/types/Comentario";
+import { getComentarios } from "@/utils/api";
 
 
 export default function Post() {
@@ -14,6 +16,7 @@ export default function Post() {
   const { loggedIn } = useContext(loggedInContext);
   const [deleteComment, setDeleteComment] = useState(false);
   const [showModalComentario, setShowModalComentario] = useState(false);
+  const [comentarios, setComentarios] = useState<Comentario[]>([]);
 
   const [avaliacao, setAvaliacao] = useState({
     nome: "",
@@ -22,6 +25,25 @@ export default function Post() {
     data: "",
     conteudo: "",
   });
+
+  // Busca os dados dos comentarios ao montar o componente
+  useEffect(() => {
+    const fetchComentarios = async () => {
+      if (id) {
+        const response = await getComentarios({
+          avaliacaoId: Number(id),
+          limit: 10,
+          order_field: "updatedAt",
+          order: "desc",
+        });
+        if (response) {
+          setComentarios(response);
+        }
+      }
+    };
+    fetchComentarios();
+  }, [id]);
+  
 
   // Busca os dados da avaliacao ao montar o componente
   useEffect(() => {
@@ -39,7 +61,11 @@ export default function Post() {
   return (
     <>
       {showModalComentario && (
-        <ModalComentario onClose={() => setShowModalComentario(false)} />
+        <ModalComentario 
+          onClose={() => setShowModalComentario(false)} 
+          onComentarioAdd={(newComentario: Comentario) => setComentarios((prev) => [newComentario, ...prev])}
+          avaliacaoId={Number(id)}
+          />
       )}
 
       {/* botao de voltar */}
@@ -142,8 +168,19 @@ export default function Post() {
 
           {showButtonComments && (
             <>
-            
-              <Comentario nome="nome" data="data" conteudo="conteudo"></Comentario>
+              {comentarios.length > 0 ? (
+                comentarios.map((comentario, index) => (
+                  <ComponentComentario
+                    key={index} // Use `id` como chave única
+                    nome={comentario.nome} 
+                    data={comentario.updatedAt}
+                    conteudo={comentario.conteudo}
+                  />
+                ))
+              ) : (
+                <div>Nenhum comentário encontrado.</div>
+              )}
+
             </>
           )}
         </div>

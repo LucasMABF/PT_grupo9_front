@@ -4,4 +4,5 @@ export type Avaliacao = {
   conteudo: string,
   disciplina: string,
   professor: string,
+  professorId: number,
 }
