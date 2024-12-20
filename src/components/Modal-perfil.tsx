@@ -2,8 +2,9 @@
 import React from 'react';
 import Image from 'next/image';
 import { updateUser } from '@/utils/api';
-
-interface ModalPerfilProps {
+import { useParams } from 'next/navigation';
+import { useEffect } from 'react';
+ interface ModalPerfilProps {
     usuarioId: number;
     nome: string;
     email: string;
@@ -14,13 +15,9 @@ interface ModalPerfilProps {
 
 const ModalPerfil: React.FC<ModalPerfilProps> = ({
     usuarioId,
-    nome,
-    email,
-    departamento,
-    curso, 
     onClose, 
 }) => {
-
+    const {id} = useParams();
     const [nomeUsuario, setNomeUsuario] = React.useState<string>("");
     const [emailUsuario, setEmailUsuario] = React.useState<string>("");
     const [departamentoUsuario, setDepartamentoUsuario] = React.useState<string>("");
@@ -29,16 +26,17 @@ const ModalPerfil: React.FC<ModalPerfilProps> = ({
      // Função para salvar as edições do perfil
         const handleSubmit = async (event: React.FormEvent) => {
             event.preventDefault(); // Evita o reload da página
-            if (!usuarioId || !nomeUsuario.trim() || !emailUsuario.trim() || !departamentoUsuario.trim() || !cursoUsuario.trim()) {
+            // Verifica se os campos estão preenchidos
+            if (!nomeUsuario.trim() || !emailUsuario.trim() || !departamentoUsuario.trim() || !cursoUsuario.trim()) {
             alert("Por favor, preencha todos os campos.");
             return;
             }
             const usuario = {
-                usuarioId,
-                nome,
-                email,
-                departamento,
-                curso,
+                usuarioId: id,
+                nome: nomeUsuario,
+                email: emailUsuario,
+                departamento: departamentoUsuario,
+                curso: cursoUsuario,
             };
 
             try {
@@ -51,6 +49,15 @@ const ModalPerfil: React.FC<ModalPerfilProps> = ({
         }
     }
 
+        // TESTE DE DADOS
+        useEffect(() => {
+            console.log("ID do usuário:", id);
+            console.log("Nome do usuário: ", nomeUsuario);
+            console.log('Email do usuário: ', emailUsuario);
+            console.log('Departamento do usuário: ', departamentoUsuario);
+            console.log('Curso do usuário: ', cursoUsuario);
+        });
+        
     return (
         <>
         <div className="z-10 fixed bg-gray-800 bg-opacity-75 w-full h-full flex justify-center items-center">
@@ -64,14 +71,14 @@ const ModalPerfil: React.FC<ModalPerfilProps> = ({
                 <div className="cursor-pointer change-avatar -mt-8 p-2 bg-white rounded-full">
                     <Image width={30} height={30} src="/icon-camera.png" alt="change-avatar" className="camera-icon"></Image>
                 </div>
-                <form onSubmit={handleSubmit} className="flex flex-col items-center" action="POST">
-                    <input onChange={(e) => setNomeUsuario(e.target.value)} className="my-4 tracking-wider text-x1 w-96 px-4 text-black p-2.5 rounded-full" type="text" placeholder="Nome"/>
-                    <input onChange={(e) => setEmailUsuario(e.target.value)} className="my-4 tracking-wider text-x1 w-96 px-4 text-black p-2.5 rounded-full" type="text" placeholder="Email" />
-                    <input onChange={(e) => setDepartamentoUsuario(e.target.value)} className="my-4 tracking-wider text-x1 w-96 px-4 text-black p-2.5 rounded-full" type="text" placeholder="Departamento"/>
-                    <input onChange={(e) => setCursoUsuario(e.target.value)} className="my-4 tracking-wider text-x1 w-96 px-4 text-black p-2.5 rounded-full" type="text" placeholder="Curso"/>
+                <form onSubmit={handleSubmit} className="flex flex-col items-center">
+                    <input value={nomeUsuario} onChange={(e) => setNomeUsuario(e.target.value)} className="my-4 tracking-wider text-x1 w-96 px-4 text-black p-2.5 rounded-full" type="text" placeholder="Nome"/>
+                    <input value={emailUsuario} onChange={(e) => setEmailUsuario(e.target.value)} className="my-4 tracking-wider text-x1 w-96 px-4 text-black p-2.5 rounded-full" type="text" placeholder="Email" />
+                    <input value={departamentoUsuario} onChange={(e) => setDepartamentoUsuario(e.target.value)} className="my-4 tracking-wider text-x1 w-96 px-4 text-black p-2.5 rounded-full" type="text" placeholder="Departamento"/>
+                    <input value={cursoUsuario} onChange={(e) => setCursoUsuario(e.target.value)} className="my-4 tracking-wider text-x1 w-96 px-4 text-black p-2.5 rounded-full" type="text" placeholder="Curso"/>
                     <input className="my-4 tracking-wider text-x1 w-96 px-4 text-black p-2.5 rounded-full" type="password" placeholder="Nova senha"/>
 
-                    <button onClick={onClose} type="submit" className="my-4 w-44 py-2 px-5 bg-green-700 rounded-lg cursor-pointer hover:bg-green-800">Salvar</button>
+                    <button type="submit" className="my-4 w-44 py-2 px-5 bg-green-700 rounded-lg cursor-pointer hover:bg-green-800">Salvar</button>
                 </form>
             </div>
 

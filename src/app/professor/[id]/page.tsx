@@ -54,6 +54,15 @@ export default function Professor() {
       }
       fetchAvaliacoes();
     }, [id]);
+    
+    // TESTE DE DADOS
+    useEffect(() => {
+      console.log("Professor ID:", id);
+      console.log("Nome do professor:", professor.nome);
+      console.log("Departamento:", professor.departamento);
+      console.log("Avaliacoes:", avaliacoes);
+      console.log("User ID:", 1);
+    })
 
   return (  
     <>
