@@ -5,10 +5,12 @@ import ModalComentario from "@/components/Modal-comentario";
 import ComponentComentario from "@/components/Comentario";
 import { useState, useContext, useEffect } from "react";
 import { getAvaliacao } from "@/utils/api";
+import { Avaliacao } from "@/types/Avaliacao";
 import { useParams } from "next/navigation";
 import { Comentario } from "@/types/Comentario";
 import { getComentarios } from "@/utils/api";
 import ModalExcluirComentario from "@/components/Modal-Excluir-comentáio";
+import ModalEditarAvaliacao from "@/components/Modal-editar-avaliacao";
 
 export default function Post() {
   const {id} = useParams(); // Obtem o id do user da avaliacao
@@ -17,13 +19,16 @@ export default function Post() {
   const [excluirComentario, setExcluirComentario] = useState(false);
   const [showModalComentario, setShowModalComentario] = useState(false);
   const [comentarios, setComentarios] = useState<Comentario[]>([]);
-
+  const [showModalAvaliacao, setShowModalAvaliacao] = useState(false);
   const [avaliacao, setAvaliacao] = useState({
     nome: "",
     materia: "",
     professor: "",
     data: "",
     conteudo: "",
+    userId: 0,
+    disciplina: "",
+    professorId: 0,
   });
 
   // Busca os dados dos comentarios ao montar o componente
@@ -60,6 +65,16 @@ export default function Post() {
 
   return (
     <>
+    {showModalAvaliacao && (
+      <ModalEditarAvaliacao 
+        onClose={() => setShowModalAvaliacao(false)} 
+        avaliacao={avaliacao}
+        onUpdate={(updatedAvaliacao: Avaliacao) =>
+          setAvaliacao((prev => ({ ...prev, ...updatedAvaliacao })))
+        } 
+      ></ModalEditarAvaliacao>
+    )}
+    
       {showModalComentario && (
         <ModalComentario 
           onClose={() => setShowModalComentario(false)} 
@@ -120,7 +135,9 @@ export default function Post() {
               <span className="disciplina">{avaliacao.materia} disciplina</span>
             </span>
 
-
+          <div className="text-gray-900 py-5 conteudo">
+            <p>{avaliacao.conteudo} Conteudo da avaliacao lorem ipsum is a great way to inteact with a random text.</p>
+          </div>
             
 
             <div className="w-full text-black flex justify-between">
@@ -128,13 +145,15 @@ export default function Post() {
                 className="hover:underline cursor-pointer "
                 onClick={() => setShowButtonComments(!showButtonComments)}
               >
-                {showButtonComments ? "Ocultar comentários" : "2 comentários"}
+                {showButtonComments ? "Ocultar comentários" : "Ver comentários"}
               </button>
 
               {/*Implementando função de logado e deslogado */}
               {loggedIn && (
                 <div className="flex gap-4">
-                  <button onClick={() => setShowModalComentario(true)}>
+                  <button className="ADICIONAR-COMENTARIO w-7 h-7 text-x1 border-black rounded-full border-2 hover:bg-blue-400" onClick={() => setShowModalComentario(true)}>+</button>
+                  
+                  <button onClick={() => setShowModalAvaliacao(true)}>
                     <Image
                       width={20}
                       height={20}
@@ -170,7 +189,7 @@ export default function Post() {
                   />
                 ))
               ) : (
-                <div>Nenhum comentário encontrado.</div>
+                <div className="p-10 text-gray-400">Nenhum comentário encontrado...</div>
               )}
 
             </>

@@ -3,6 +3,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { getUser } from '@/utils/api';
 import { Comentario } from '@/types/Comentario';
+import { newComentario } from '@/utils/api';
 
 interface ModalComentarioProps {
     onClose: () => void;
@@ -17,7 +18,7 @@ const ModalComentario: React.FC<ModalComentarioProps> = ({ onClose, onComentario
     // Busca o ID do usuario ao montar o componente
     useEffect(() => {
         const fetchUserId = async () => {
-            const user = await getUser(1);
+            const user = await getUser(1);  // AJUSTAR PARA O ID DO USUARIO LOGADO
             if (user) {
                 setUserId(user.id);
             }
@@ -26,24 +27,27 @@ const ModalComentario: React.FC<ModalComentarioProps> = ({ onClose, onComentario
     }, []);
 
     const handleAddComentario = async () => {
-        try {
-            const user = await getUser(1);
-        
-        if (!userId) {
-            console.error("Usuário não encontrado");
-            return;
-        }
+        try {        
+            if (!userId) {
+                console.error("Usuário não encontrado");
+                return;
+            }
 
-        const newComentario: Comentario = {
-            userId: user.id,
+        const newComentarioObj: Comentario = {
+            userId: userId,
             avaliacaoId: avaliacaoId,
             conteudo: comentario,
-            nome: user.nome,
-            updatedAt: user.data,
+            nome: "Nome do usuário",
+            updatedAt: new Date().toISOString(),
         };
 
-            onComentarioAdd(newComentario);
+        const response = await newComentario(newComentarioObj);
+
+        if (response) {
+            onComentarioAdd(response);
             onClose();
+        }
+        
         } catch (error) {
             console.error("Erro ao adicionar comentário", error);
         }
@@ -52,12 +56,16 @@ const ModalComentario: React.FC<ModalComentarioProps> = ({ onClose, onComentario
     return (
         <>
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            
             <form className="evaluation-container bg-green-700 flex flex-col items-center justify-center px-10 py-12 w-3/5 rounded-xl"
                     onSubmit={(e) => {
                     e.preventDefault();
                     handleAddComentario();
                      }}>
-                     <textarea      value={comentario} 
+                    <h1 className="text-lg text-black">Adicionar comentário</h1>
+                     <textarea
+                        placeholder="Digite seu comentário aqui..."     
+                        value={comentario} 
                         onChange={(event) => setComentario(event.target.value)} 
                         name="Comentario" 
                         id="Comentario" 
