@@ -8,12 +8,15 @@ import { getAvaliacao } from "@/utils/api";
 import { useParams } from "next/navigation";
 import { Comentario } from "@/types/Comentario";
 import { getComentarios } from "@/utils/api";
-
+import Comentario from "@/components/Comentario";
+import ModalExcluirComentario from "@/components/Modal-Excluir-comentáio";
+import { useState, useContext } from "react";
 
 export default function Post() {
   const {id} = useParams(); // Obtem o id do user da avaliacao
   const [showButtonComments, setShowButtonComments] = useState(false);
   const { loggedIn } = useContext(loggedInContext);
+  const [excluirComentario, setExcluirComentario] = useState(false);
   const [deleteComment, setDeleteComment] = useState(false);
   const [showModalComentario, setShowModalComentario] = useState(false);
   const [comentarios, setComentarios] = useState<Comentario[]>([]);
@@ -68,6 +71,10 @@ export default function Post() {
           />
       )}
 
+      {excluirComentario && (
+        <ModalExcluirComentario onClose={() => setExcluirComentario(false)} />
+      )}
+
       {/* botao de voltar */}
       <a href="/perfil">
         <button className="back-button absolute w-12 h-12 rounded-full bg-green-700 flex justify-center items-center m-20 cursor-pointer shadow-lg hover:w-20 transition-all">
@@ -93,24 +100,19 @@ export default function Post() {
                   {avaliacao.nome} Joao da Silva
                 </span>
 
-                {/*Deletando estrelas */}
-                {deleteComment ? (
-                  " "
-                ) : (
-                  <span className="estrelas text-lg ml-3">
-                    <span className="estrela1 m-0.5 text-yellow-500">
-                      &#9733;
-                    </span>
-                    <span className="estrela2 m-0.5 text-yellow-500">
-                      &#9733;
-                    </span>
-                    <span className="estrela3 m-0.5 text-yellow-500">
-                      &#9733;
-                    </span>
-                    <span className="estrela4 m-0.5">&#9733;</span>
-                    <span className="estrela5 m-0.5">&#9733;</span>
+                <span className="estrelas text-lg ml-3">
+                  <span className="estrela1 m-0.5 text-yellow-500">
+                    &#9733;
                   </span>
-                )}
+                  <span className="estrela2 m-0.5 text-yellow-500">
+                    &#9733;
+                  </span>
+                  <span className="estrela3 m-0.5 text-yellow-500">
+                    &#9733;
+                  </span>
+                  <span className="estrela4 m-0.5">&#9733;</span>
+                  <span className="estrela5 m-0.5">&#9733;</span>
+                </span>
               </div>
             </div>
 
@@ -120,6 +122,7 @@ export default function Post() {
               <span className="professor">{avaliacao.professor} professor</span> -{" "}
               <span className="disciplina">{avaliacao.materia} disciplina</span>
             </span>
+
 
             {/*Botão de excluir mensagem */}
             {deleteComment ? (
@@ -152,7 +155,7 @@ export default function Post() {
                       className="cursor-pointer rounded-sm hover:bg-blue-400"
                     ></Image>
                   </button>
-                  <button onClick={() => setDeleteComment(true)}>
+                  <button onClick={() => setExcluirComentario(true)}>
                     <Image
                       width={20}
                       height={20}
@@ -168,6 +171,7 @@ export default function Post() {
 
           {showButtonComments && (
             <>
+
               {comentarios.length > 0 ? (
                 comentarios.map((comentario, index) => (
                   <ComponentComentario
