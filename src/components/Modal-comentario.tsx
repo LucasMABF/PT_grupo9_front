@@ -37,7 +37,9 @@ const ModalComentario: React.FC<ModalComentarioProps> = ({ onClose, onComentario
             userId: user.id,
             avaliacaoId: avaliacaoId,
             conteudo: comentario,
-            };
+            nome: user.nome,
+            updatedAt: user.data,
+        };
 
             onComentarioAdd(newComentario);
             onClose();
