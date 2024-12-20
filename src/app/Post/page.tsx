@@ -2,26 +2,73 @@
 import Image from "next/image";
 import { loggedInContext } from "@/providers/loggedIn";
 import ModalComentario from "@/components/Modal-comentario";
+import ComponentComentario from "@/components/Comentario";
+import { useState, useContext, useEffect } from "react";
+import { getAvaliacao } from "@/utils/api";
+import { useParams } from "next/navigation";
+import { Comentario } from "@/types/Comentario";
+import { getComentarios } from "@/utils/api";
 import Comentario from "@/components/Comentario";
 import ModalExcluirComentario from "@/components/Modal-Excluir-comentáio";
 import { useState, useContext } from "react";
 
-interface Props {
-  nome: string;
-  professor: string;
-  materia: string;
-  conteudo: string;
-}
-export default function Post(props: Props) {
+export default function Post() {
+  const {id} = useParams(); // Obtem o id do user da avaliacao
   const [showButtonComments, setShowButtonComments] = useState(false);
   const { loggedIn } = useContext(loggedInContext);
   const [excluirComentario, setExcluirComentario] = useState(false);
+  const [deleteComment, setDeleteComment] = useState(false);
   const [showModalComentario, setShowModalComentario] = useState(false);
+  const [comentarios, setComentarios] = useState<Comentario[]>([]);
+
+  const [avaliacao, setAvaliacao] = useState({
+    nome: "",
+    materia: "",
+    professor: "",
+    data: "",
+    conteudo: "",
+  });
+
+  // Busca os dados dos comentarios ao montar o componente
+  useEffect(() => {
+    const fetchComentarios = async () => {
+      if (id) {
+        const response = await getComentarios({
+          avaliacaoId: Number(id),
+          limit: 10,
+          order_field: "updatedAt",
+          order: "desc",
+        });
+        if (response) {
+          setComentarios(response);
+        }
+      }
+    };
+    fetchComentarios();
+  }, [id]);
+  
+
+  // Busca os dados da avaliacao ao montar o componente
+  useEffect(() => {
+    const fetchAvaliacao = async () => {
+      if (id) {
+        const data = await getAvaliacao(Number(id)); // Certifique-se de que o ID seja um número
+        if (data) {
+          setAvaliacao(data);
+        }
+      }
+    };
+    fetchAvaliacao();
+  }, [id]);
 
   return (
     <>
       {showModalComentario && (
-        <ModalComentario onClose={() => setShowModalComentario(false)} />
+        <ModalComentario 
+          onClose={() => setShowModalComentario(false)} 
+          onComentarioAdd={(newComentario: Comentario) => setComentarios((prev) => [newComentario, ...prev])}
+          avaliacaoId={Number(id)}
+          />
       )}
 
       {excluirComentario && (
@@ -50,7 +97,7 @@ export default function Post(props: Props) {
 
               <div>
                 <span className="user-name text-lg font-bold text-gray-900">
-                  {props.nome} Joao da Silva
+                  {avaliacao.nome} Joao da Silva
                 </span>
 
                 <span className="estrelas text-lg ml-3">
@@ -72,13 +119,21 @@ export default function Post(props: Props) {
             <span className="post-info text-sm text-black">
               <span className="data">23/12/2024</span>, às{" "}
               <span className="hora">21:42</span> -{" "}
-              <span className="professor">{props.professor} professor</span> -{" "}
-              <span className="disciplina">{props.materia} disciplina</span>
+              <span className="professor">{avaliacao.professor} professor</span> -{" "}
+              <span className="disciplina">{avaliacao.materia} disciplina</span>
             </span>
 
-            <p className="post-text  my-4  text-gray-800">
-              {props.conteudo} espaco para conteudo
-            </p>
+
+            {/*Botão de excluir mensagem */}
+            {deleteComment ? (
+              <p className="post-text text-center my-4  text-gray-800">
+                Está mensagem foi apagada
+              </p>
+            ) : (
+              <p className="post-text  my-4  text-gray-800">
+                {avaliacao.conteudo} espaco para conteudo
+              </p>
+            )}
 
             <div className="w-full text-black flex justify-between">
               <button
@@ -116,18 +171,20 @@ export default function Post(props: Props) {
 
           {showButtonComments && (
             <>
-              <div className="my-3 border border-gray-950  w-30%"></div>
-              <Comentario
-                nome="nome"
-                data="data"
-                conteudo="conteudo"
-              ></Comentario>
 
-              <Comentario
-                nome="nome"
-                data="data"
-                conteudo="conteudo"
-              ></Comentario>
+              {comentarios.length > 0 ? (
+                comentarios.map((comentario, index) => (
+                  <ComponentComentario
+                    key={index} // Use `id` como chave única
+                    nome={comentario.nome} 
+                    data={comentario.updatedAt}
+                    conteudo={comentario.conteudo}
+                  />
+                ))
+              ) : (
+                <div>Nenhum comentário encontrado.</div>
+              )}
+
             </>
           )}
         </div>

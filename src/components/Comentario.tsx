@@ -7,7 +7,7 @@ interface Props {
     data: string
 }
 
-const Comentario = (props: Props) => {
+const ComponentComentario = (props: Props) => {
 
     return (
         <>
@@ -44,4 +44,4 @@ const Comentario = (props: Props) => {
 
 }
 
-export default Comentario
+export default ComponentComentario

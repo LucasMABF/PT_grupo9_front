@@ -1,6 +1,8 @@
 export type Avaliacao = {
+  nome: string,
   userId: number,
   conteudo: string,
-  disciplinaId: number,
+  disciplina: string,
+  professor: string,
   professorId: number,
 }

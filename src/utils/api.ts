@@ -89,19 +89,19 @@ export const getAvaliacao = async (id: number) => {
   }
 }
 
-export const getAvaliacoes = async (args?: {limit?: number, order_field: string, order?: string}) => {
-  try{
-    if(args){
-      const res = await api.get(`avaliacao/${args.order_field}/${args.order? args.order : "asc"}${args.limit? "/" + args.limit : ""}`);
-      return res.data;
-    }else{
-      const res = await api.get('avaliacao');
-      return res.data;
-    }
-  }catch(e){
+export const getAvaliacoes = async (args?: { professorId?: number; limit?: number; order_field: string; order?: string }) => {
+  try {
+    let url = `avaliacao/${args?.order_field}/${args?.order ? args.order : "asc"}`;
+    if (args?.limit) url += `/${args.limit}`;
+    if (args?.professorId) url += `?professorId=${args.professorId}`;
+
+    const res = await api.get(url);
+    return res.data;
+  } catch (e) {
     console.log(e);
   }
-}
+};
+
 
 export const updateAvaliacao = async (avaliacao: Partial<Avaliacao>, id: number) => {
   try{
@@ -158,14 +158,20 @@ export const updateComentario = async (comentario: Partial<Comentario>, id: numb
   }
 }
 
-export const getComentarios = async (id_avaliacao: number) => {
-  try{
-    const res = await api.get(`comentario/byavaliacao/${id_avaliacao}`);
+export const getComentarios = async (params: { 
+  avaliacaoId: number; 
+  limit?: number; 
+  order_field?: string; 
+  order?: "asc" | "desc"; 
+}) => {
+  try {
+    const res = await api.get("comentario/byavaliacao", { params });
     return res.data;
-  }catch(e){
+  } catch (e) {
     console.log(e);
   }
-}
+};
+
 
 export const getComentario = async (id: number) => {
   try{

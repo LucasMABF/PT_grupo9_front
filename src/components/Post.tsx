@@ -6,10 +6,12 @@ import { useState, useContext } from "react";
 import ModalExcluirComentario from "./Modal-Excluir-comentáio";
 
 interface Props {
-  nome: string;
-  professor: string;
-  materia: string;
-  conteudo: string;
+
+  id: number,
+  nome: string
+  professor: string
+  materia: string
+  conteudo: string
 }
 const Publicacao = (props: Props) => {
   const { loggedIn } = useContext(loggedInContext);
