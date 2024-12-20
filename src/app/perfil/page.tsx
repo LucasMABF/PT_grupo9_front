@@ -62,6 +62,11 @@ export default function Perfil() {
   fetchUsuario();
   }, [id]);
 
+    // TESTE DE DADOS
+    useEffect(() => {
+      console.log(usuario);
+      console.log(avaliacoes);
+    })
   return (  
     <>
     {showModalPerfil ? (
