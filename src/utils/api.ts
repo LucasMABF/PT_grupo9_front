@@ -131,7 +131,9 @@ export const newComentario = async(comentario: Comentario) => {
     const res = await api.post("comentario", comentario);
     return res.data;
   }catch(e){
-    console.log(e);
+    console.error("Erro ao adicionar comentário", e);
+    throw e;
+
   }
 }
 

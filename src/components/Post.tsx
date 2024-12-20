@@ -53,7 +53,7 @@ const Publicacao = (props: Props) => {
         <p className="post-text my-4 text-black">{props.conteudo}</p>
         <div className="flex justify-between post-footer text-sm ">
           <a href="/Post">
-            <div className="hover:underline cursor-pointer">2 comentários</div>
+            <div className="hover:underline cursor-pointer">Comentários</div>
           </a>
 
           {/* Acoes de postagem para LOGADO */}
