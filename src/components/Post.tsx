@@ -3,6 +3,7 @@ import Image from  'next/image'
 import ModalComentario from './Modal-comentario';
 import { loggedInContext } from "@/providers/loggedIn";
 import { useState, useContext } from 'react';
+import { Comentario } from '@/types/Comentario';
 
 interface Props {
   id: number,
@@ -12,9 +13,10 @@ interface Props {
   conteudo: string
 }
 const Publicacao = (props: Props) => {
+
     const {loggedIn} = useContext(loggedInContext);
     const [showModalComentario, setShowModalComentario] = useState(false);
-  
+
     return (
         <>
         {showModalComentario && (
