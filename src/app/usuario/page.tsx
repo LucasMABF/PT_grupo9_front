@@ -54,6 +54,7 @@ const LoginCadastro: React.FC = () => {
     const response = await createUser(newUser);
     if (response) {
       alert("Usuário criado com sucesso!");
+      console.log("Dados do usuário cadastrado:", newUser); // Exibe os dados no console
       toggleMode(); // vai pra tela de login apos o cadastro
     } else {
       alert("Erro ao criar usuário!");
