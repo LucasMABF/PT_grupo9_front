@@ -8,16 +8,13 @@ import { getAvaliacao } from "@/utils/api";
 import { useParams } from "next/navigation";
 import { Comentario } from "@/types/Comentario";
 import { getComentarios } from "@/utils/api";
-import Comentario from "@/components/Comentario";
 import ModalExcluirComentario from "@/components/Modal-Excluir-comentáio";
-import { useState, useContext } from "react";
 
 export default function Post() {
   const {id} = useParams(); // Obtem o id do user da avaliacao
   const [showButtonComments, setShowButtonComments] = useState(false);
   const { loggedIn } = useContext(loggedInContext);
   const [excluirComentario, setExcluirComentario] = useState(false);
-  const [deleteComment, setDeleteComment] = useState(false);
   const [showModalComentario, setShowModalComentario] = useState(false);
   const [comentarios, setComentarios] = useState<Comentario[]>([]);
 
@@ -124,16 +121,7 @@ export default function Post() {
             </span>
 
 
-            {/*Botão de excluir mensagem */}
-            {deleteComment ? (
-              <p className="post-text text-center my-4  text-gray-800">
-                Está mensagem foi apagada
-              </p>
-            ) : (
-              <p className="post-text  my-4  text-gray-800">
-                {avaliacao.conteudo} espaco para conteudo
-              </p>
-            )}
+            
 
             <div className="w-full text-black flex justify-between">
               <button

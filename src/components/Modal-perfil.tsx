@@ -1,3 +1,4 @@
+{ /* Modal de edição de perfil do usuário */ }
 import React from 'react';
 import Image from 'next/image';
 import { updateUser } from '@/utils/api';

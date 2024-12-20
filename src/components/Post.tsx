@@ -14,19 +14,21 @@ interface Props {
   conteudo: string
 }
 const Publicacao = (props: Props) => {
-  const { loggedIn } = useContext(loggedInContext);
-  const [showModalComentario, setShowModalComentario] = useState(false);
-  const [excluirComentario, setExcluirComentario] = useState(false);
 
-  return (
-    <>
-      {showModalComentario ? (
-        <ModalComentario
-          onClose={() => setShowModalComentario(false)}
-        ></ModalComentario>
-      ) : (
-        <div></div>
-      )}
+    const {loggedIn} = useContext(loggedInContext);
+    const [showModalComentario, setShowModalComentario] = useState(false);
+    const [excluirComentario, setExcluirComentario] = useState(false);
+
+    return (
+        <>
+        {showModalComentario && (
+        <ModalComentario 
+          onClose={() => setShowModalComentario(false)} 
+          onComentarioAdd={(newComentario: Comentario) => setComentarios((prev) => [newComentario, ...prev])}
+          avaliacaoId={Number(id)}
+          />            
+        )}
+         
 
       {excluirComentario && (
         <ModalExcluirComentario onClose={() => setExcluirComentario(false)} />
