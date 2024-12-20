@@ -17,10 +17,13 @@ const Publicacao = (props: Props) => {
   
     return (
         <>
-        {showModalComentario ? (
-        <ModalComentario onClose={() => setShowModalComentario(false)}></ModalComentario>
-            
-        ) : (<div></div>)}
+        {showModalComentario && (
+        <ModalComentario 
+          onClose={() => setShowModalComentario(false)} 
+          onComentarioAdd={(newComentario: Comentario) => setComentarios((prev) => [newComentario, ...prev])}
+          avaliacaoId={Number(id)}
+          />            
+        )}
          
           <div className=" text-black post bg-color1 p-4 rounded-lg my-4">
           <div className="post-header flex items-center mb-3">
