@@ -21,41 +21,43 @@ export default function Post() {
   const [avaliacao, setAvaliacao] = useState({
     nome: "",
     materia: "",
-    professor: "",
+    professor: {
+      id: null,
+      nome: "",
+      departamento: "",
+    },
     data: "",
     conteudo: "",
   });
 
   // Busca os dados dos comentarios ao montar o componente
-  useEffect(() => {
-    const fetchComentarios = async () => {
-      if (id) {
-        const response = await getComentarios({
-          avaliacaoId: Number(id),
-          limit: 10,
-          order_field: "updatedAt",
-          order: "desc",
-        });
-        if (response) {
-          setComentarios(response);
-        }
-      }
-    };
-    fetchComentarios();
-  }, [id]);
+  //useEffect(() => {
+  //  const fetchComentarios = async () => {
+  //    if (id) {
+  //      const response = await getComentarios({
+  //        avaliacaoId: Number(id),
+  //        limit: 10,
+  //        order_field: "updatedAt",
+  //        order: "desc",
+  //      });
+  //      if (response) {
+  //        setComentarios(response);
+  //      }
+  //    }
+  //  };
+  //  fetchComentarios();
+  //}, [id]);
   
 
   // Busca os dados da avaliacao ao montar o componente
   useEffect(() => {
-    const fetchAvaliacao = async () => {
-      if (id) {
-        const data = await getAvaliacao(Number(id)); // Certifique-se de que o ID seja um número
+    if (id) {
+      getAvaliacao(Number(id)).then((data) => { // Certifique-se de que o ID seja um número
         if (data) {
           setAvaliacao(data);
         }
-      }
-    };
-    fetchAvaliacao();
+      }); 
+    }
   }, [id]);
 
   return (
@@ -94,7 +96,7 @@ export default function Post() {
 
               <div>
                 <span className="user-name text-lg font-bold text-gray-900">
-                  {avaliacao.nome} Joao da Silva
+                  {avaliacao.nome}
                 </span>
 
                 <span className="estrelas text-lg ml-3">
@@ -116,12 +118,12 @@ export default function Post() {
             <span className="post-info text-sm text-black">
               <span className="data">23/12/2024</span>, às{" "}
               <span className="hora">21:42</span> -{" "}
-              <span className="professor">{avaliacao.professor} professor</span> -{" "}
+              <span className="professor">{avaliacao.professor.nome} professor</span> -{" "}
               <span className="disciplina">{avaliacao.materia} disciplina</span>
             </span>
 
 
-            
+
 
             <div className="w-full text-black flex justify-between">
               <button

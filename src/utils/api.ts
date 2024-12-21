@@ -2,14 +2,39 @@ import axios from "axios";
 import {User} from "@/types/User"
 import { Avaliacao } from "@/types/Avaliacao";
 import { Comentario } from "@/types/Comentario";
+import { LoginInfo } from "@/types/LoginInfo";
+import { toast, Bounce } from 'react-toastify';
 
 const api = axios.create({
   baseURL: "http://localhost:3000",
 })
 
+api.interceptors.request.use((config) => {
+  if(typeof window !== 'undefined'){
+    const token = window.localStorage.getItem('token');
+    if(token){
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+  }
+
+  return config;
+});
+
 export const createUser = async (user : User) =>{
   try{
     const res = await api.post("usuario", user);
+    return res.data;
+  }catch(e){
+    if(e.response.data.message === "Este e-mail já está sendo usado."){
+      toast.error("Este e-mail já está sendo usado.");
+    }
+    console.log(e);
+  }
+}
+
+export const requestLogin = async(login_info: login_info) => {
+  try{
+    const res = await api.post("login", login_info);
     return res.data;
   }catch(e){
     console.log(e);

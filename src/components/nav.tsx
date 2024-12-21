@@ -17,7 +17,7 @@ const NavBar = () => {
         <Link href="/perfil">
         <Image className="self-center h-14 w-14 p-0.5 mr-1 ml-auto object-fit-contain hover:scale-105 duration-100" src={DefaultProfilePic}  alt="foto de perfil"/>
         </Link>
-        <Link href="../" passHref>
+        <Link href="/" passHref>
           <Image className="self-center h-11 w-11 p-0.5 mt-1.5 mr-2 hover:scale-105 duration-100" onClick={logout} src={LogoutIcon} alt="ícone logout"/>
         </Link>
       </nav>
@@ -28,8 +28,8 @@ const NavBar = () => {
   return(
     <nav className="bg-color2 max-h-16 min-h-16 p-2 flex">
       <Image className="w-24 ml-1 mr-auto" src={LogoUnB} alt="logo UnB"/>
-      <Link href="/usuario" passHref>
-        <button onClick={login} className="bg-color1 text-white p-2 rounded-lg self-center mr-1 ml-auto w-28 text-lg hover:scale-105 duration-100"> Login </button>
+      <Link href="/login" passHref>
+        <button className="bg-color1 text-white p-2 rounded-lg self-center mr-1 ml-auto w-28 text-lg hover:scale-105 duration-100"> Login </button>
       </Link>
     </nav>
   );
