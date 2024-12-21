@@ -2,22 +2,19 @@ import React from "react";
 import Image from "next/image";
 import { loggedInContext } from "@/providers/loggedIn";
 import { useState, useContext } from "react";
-import ModalExcluirComentario from "./Modal-excluir-avaliacao";
-import ModalEditarAvaliacao from "./Modal-editar-avaliacao";
+import ModalConfirmarExcluir from "./ModalConfirmarExcluir";
+import { Comentario } from "@/types/Comentario";
 import { Avaliacao } from "@/types/Avaliacao";
-interface Props {
+import { deleteAvaliacao } from "@/utils/api";
+import ModalEditarAvaliacao from "./Modal-editar-avaliacao";
+import Link from "next/link";
 
-  id: number,
-  nome: string
-  professor: string
-  materia: string
-  conteudo: string
-}
-const Publicacao = (props: Props) => {
+const Publicacao = (props: {avaliacao: Avaliacao}) => {
 
     const {loggedIn} = useContext(loggedInContext);
     const [showModalEditarAvaliacao, setShowModalEditarAvaliacao] = useState(false);
     const [excluirComentario, setExcluirComentario] = useState(false);
+
 
     const [avaliacao, setAvaliacao] = useState({
       nome: "",
@@ -32,7 +29,7 @@ const Publicacao = (props: Props) => {
 
     return (
         <>
-        {showModalEditarAvaliacao && (
+        {/*showModalEditarAvaliacao && (
       <ModalEditarAvaliacao 
         onClose={() => setShowModalEditarAvaliacao(false)} 
         avaliacao={avaliacao}
@@ -40,12 +37,12 @@ const Publicacao = (props: Props) => {
           setAvaliacao((prev => ({ ...prev, ...updatedAvaliacao })))
         } 
       ></ModalEditarAvaliacao>
-    )}
+    )*/}
     
          
 
       {excluirComentario && (
-        <ModalExcluirComentario onClose={() => setExcluirComentario(false)} />
+        <ModalConfirmarExcluir onClose={() => setExcluirComentario(false)} onConfirm={() => {deleteAvaliacao(props.avaliacao.id)}} />
       )}
 
       <div className=" text-black post bg-color1 p-4 rounded-lg my-4">
@@ -53,26 +50,25 @@ const Publicacao = (props: Props) => {
           <Image
             width={10}
             height={10}
-            src="/profile-picture.webp"
+            src="/media/profile_pic.svg"
             alt="Avatar"
             className="post-avatar w-10 h-10 rounded-full mr-3"
           />
           <span className="post-info text-sm text-black">
-            <span className="user-name text-lg">{props.nome}</span>
+            <span className="user-name text-lg">{props.avaliacao.user.nome}</span>
             <br />
-            <span className="data">{avaliacao.data} data</span>
-            <span className="professor">{props.professor}</span> -{" "}
-            <span className="disciplina">{props.materia}</span>
+            <span className="professor">{props.avaliacao.professor.nome}</span> -{" "}
+            <span className="disciplina">{props.avaliacao.disciplina.nome}</span>
           </span>
         </div>
-        <p className="post-text my-4 text-black">{props.conteudo}</p>
+        <p className="post-text my-4 text-black">{props.avaliacao.conteudo}</p>
         <div className="flex justify-between post-footer text-sm ">
-          <a href="/Post">
-            <div className="hover:underline cursor-pointer">Comentários</div>
-          </a>
+          <Link href="/Post">
+            <div className="hover:underline cursor-pointer">2 comentários</div>
+          </Link>
 
           {/* Acoes de postagem para LOGADO */}
-          {loggedIn ? (
+          {loggedIn && (loggedIn == props.avaliacao.user.id) ? (
             <div className="mx-4 flex">
               <div
                 onClick={() => setShowModalEditarAvaliacao(true)}
@@ -86,20 +82,20 @@ const Publicacao = (props: Props) => {
                   className="cursor-pointer rounded-sm hover:bg-blue-400"
                 ></Image>
               </div>
-              <div className="deletar-post mx-4">
-                <button onClick={() => setExcluirComentario(true)}>
-                  <Image
-                    width={20}
-                    height={20}
-                    src="/icon-lixeira.png"
-                    alt="deletar-post"
-                    className="cursor-pointer rounded-sm hover:bg-blue-400"
-                  ></Image>
-                </button>
-              </div>
+                <div className="deletar-post mx-4">
+                  <button onClick={() => setExcluirComentario(true)}>
+                    <Image
+                      width={20}
+                      height={20}
+                      src="/icon-lixeira.png"
+                      alt="deletar-post"
+                      className="cursor-pointer rounded-sm hover:bg-blue-400"
+                    ></Image>
+                  </button>
+                </div>
             </div>
           ) : (
-            <div></div>
+            <></>
           )}
         </div>
       </div>

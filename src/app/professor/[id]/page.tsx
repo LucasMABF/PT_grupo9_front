@@ -5,9 +5,9 @@ import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { getProfessor} from '@/utils/api';
 import ModalAvaliacao from '@/components/Modal-avaliacao';
-import { getAvaliacoes } from '@/utils/api';
 import Publicacao from '@/components/Post';
 import { Avaliacao } from '@/types/Avaliacao';
+import { Professor as Prof } from '@/types/Professor';
 
 export default function Professor() {
 
@@ -16,62 +16,24 @@ export default function Professor() {
   const [showModalAvaliacao, setShowModalAvaliacao] = useState(false);
   const [avaliacoes, setAvaliacoes] = useState<Avaliacao[]>([]);
 
-  const[professor, setProfessor] = useState({
-    nome: "",
-    departamento: "",
-    disciplinas: [],
-  });
+  const[professor, setProfessor] = useState<Prof | null>(null);
 
    // Busca os dados do professor ao montar o componente
    useEffect(() => {
-    const fetchProfessor = async () => {
-      if (id) {
-        const data = await getProfessor(Number(id)); // Certifique-se de que o ID seja um número
-        if (data) {
-          setProfessor(data);
-        }
-      }
-    };
-
-    fetchProfessor();
-  }, [id]);
-
-    // Busca as avaliações do professor ao montar o componente
-    useEffect(() => {
-      const fetchAvaliacoes = async () => {
-        if (id) {
-          const response = await getAvaliacoes({
-            professorId: Number(id),
-            limit: 10,
-            order_field: "updatedAt",
-            order: "desc",
-          });
-          if (response) {
-            const professorAvaliacoes = response.filter((avaliacao: Avaliacao) => avaliacao.professorId === Number(id));
-            setAvaliacoes(professorAvaliacoes);
-          }
-        }
-      }
-      fetchAvaliacoes();
-    }, [id]);
-    
-    // TESTE DE DADOS
-    useEffect(() => {
-      console.log("Professor ID:", id);
-      console.log("Nome do professor:", professor.nome);
-      console.log("Departamento:", professor.departamento);
-      console.log("Avaliacoes:", avaliacoes);
-      console.log("User ID:", 1);
-    })
+    getProfessor(Number(id)).then((data) => {
+      if(data){
+        setProfessor(data);
+        setAvaliacoes(data.avaliacoes);
+     }
+    });
+  }, [id, avaliacoes]);
 
   return (  
     <>
   {/* Modal de avaliação  FALTA ENVIAR O ID DO USUARIO QUE NAO CONSEGUI IMPORTAR*/}
-    {showModalAvaliacao ? (
+    {(showModalAvaliacao && professor) ? (
         <ModalAvaliacao  
-          professorId={Number(id)}
-          disciplinas={professor.disciplinas}
-          userId={1}
+          professor={professor}
           onClose={() => setShowModalAvaliacao(false)}>
 
         </ModalAvaliacao>
@@ -91,9 +53,9 @@ export default function Professor() {
       <div className="profile-header text-center my-0.5">
 
         <Image width={100} height={20} src="/unb-banner.jpg" alt="banner" className="profile-banner w-full h-52"></Image>
-        <Image height={500} width= {500} src="/profile-picture.webp" alt="Avatar" className="profile-pic w-52 h-52 rounded-full border-4 border-color2 bg-green-200 -mt-28 mx-auto" />
-        <h1 className="my-2.5 text-2xl font-bold">{professor.nome} ...</h1>
-        <p>{professor.departamento}...</p>
+        <Image height={500} width= {500} src="/media/profile_pic.svg" alt="Avatar" className="profile-pic w-52 h-52 rounded-full border-4 border-color2 bg-green-200 -mt-28 mx-auto" />
+        <h1 className="my-2.5 text-2xl font-bold">{professor? professor.nome : "Nome"}</h1>
+        <p>{professor? professor.departamento : "Departamento"}</p>
       
       {/* Acoes de avaliar para LOGADO */}
       {loggedIn ? (
@@ -105,7 +67,7 @@ export default function Professor() {
           </button>
         </div>
       
-      ) : (<div></div>)}
+      ) : (<></>)}
         </div>
 
       {/* publicacoes */}
@@ -115,14 +77,7 @@ export default function Professor() {
 
         {avaliacoes.length > 0 ? (
           avaliacoes.map((avaliacao, index) => (
-            <Publicacao
-              key={index}
-              id={avaliacao.userId}
-              nome={avaliacao.nome}
-              professor={avaliacao.professor}
-              materia={avaliacao.disciplina}
-              conteudo={avaliacao.conteudo} />
-          ))
+            <Publicacao avaliacao={avaliacao} key={index}/>))
         ) : (
           <p className="text-center m-4 text-gray-500">Nenhuma avaliação encontrada...</p>
         )}

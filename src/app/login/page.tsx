@@ -1,8 +1,12 @@
 "use client";
-import React from 'react';
+import React, { useContext } from 'react';
+import { loggedInContext } from "@/providers/loggedIn";
 import { useState } from "react";
 import { createUser } from '@/utils/api';
 import { User } from '@/types/User';
+import { requestLogin } from '@/utils/api';
+import { redirect } from 'next/navigation';
+import { toast} from 'react-toastify';
 
 const LoginCadastro: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -12,6 +16,7 @@ const LoginCadastro: React.FC = () => {
   const [senha, setSenha] = useState("");
   const [curso, setCurso] = useState("");
   const [departamento, setDepartamento] = useState("");
+  const {login} = useContext(loggedInContext);
 
   const toggleMode = () => {
     setIsLogin(!isLogin);
@@ -28,47 +33,54 @@ const LoginCadastro: React.FC = () => {
     if (isLogin) {
       // Lógica de login
       if (!email || !senha) {
-        alert("Por favor, preencha todos os campos.");
+        toast.error("Por favor, preencha todos os campos.");
         return;
       }
-      alert(`Login realizado com sucesso!\\nEmail: ${email}`);
+
+      const response = await requestLogin({email, senha});
+      if(response){
+        login(response);
+        toast.success("Logado com sucesso!");
+        redirect("/");
+      }else{
+        toast.error("Erro ao logar!");
+      }
     } else {
       if (!nome || !email || !senha || !curso || !departamento) {
-        alert("Por favor, preencha todos os campos.");
+        toast.error("Por favor, preencha todos os campos.");
         return;
       }
-      alert(`Cadastro realizado com sucesso!\\nNome: ${nome}`);
-    
-  
 
-  // Criacao do novo usuario
-  const newUser: User = {
-    nome,
-    email,
-    senha,
-    curso,
-    departamento,
+      // Criacao do novo usuario
+      const newUser: User = {
+        nome,
+        email,
+        senha,
+        curso,
+        departamento,
+      };
+
+      const response = await createUser(newUser);
+      if (response) {
+        toast.success("Usuário criado com sucesso!");
+
+        const login_response = await requestLogin({email, senha}); 
+        if(login_response){
+          login(login_response);
+          redirect("/");
+        }else{
+          toast.error("Erro ao logar, mas conta criada!");
+        }
+      } else {
+        toast.error("Erro ao criar usuário!");
+      }
+
+    }
   };
-
-  try {
-    const response = await createUser(newUser);
-    if (response) {
-      alert("Usuário criado com sucesso!");
-      console.log("Dados do usuário cadastrado:", newUser); // Exibe os dados no console
-      toggleMode(); // vai pra tela de login apos o cadastro
-    } else {
-      alert("Erro ao criar usuário!");
-    }
-  } catch (error) {
-    console.error("Erro ao cadastrar o usuário:", error);
-    alert("Erro ao criar usuário! Verifique os dados e tente novamente.");
-    }
-  }
-};
 
   return (
     <div className=" bg-gradient-to-r from-green-900 via-green-600 to-green-900 flex justify-center items-center h-screen">
-      <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
+      <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8 m-4">
         <h1 className="text-2xl font-bold text-gray-700 text-center mb-6">
           {isLogin ? "Login" : "Cadastro de Usuário"}
         </h1>
@@ -163,3 +175,4 @@ const LoginCadastro: React.FC = () => {
 };
 
 export default LoginCadastro;
+

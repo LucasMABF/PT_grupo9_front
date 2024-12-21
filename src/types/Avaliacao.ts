@@ -1,8 +1,10 @@
+import { Professor } from "./Professor";
+import { User } from "./User";
+
 export type Avaliacao = {
-  nome: string,
-  userId: number,
+  id: number,
   conteudo: string,
-  disciplina: string,
-  professor: string,
-  professorId: number,
+  disciplina: {nome: string},
+  professor: Professor,
+  user: User,
 }

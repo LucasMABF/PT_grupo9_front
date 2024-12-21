@@ -1,47 +1,74 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import {User} from "@/types/User"
 import { Avaliacao } from "@/types/Avaliacao";
 import { Comentario } from "@/types/Comentario";
+import { LoginInfo } from "@/types/LoginInfo";
+import { toast } from 'react-toastify';
 
 const api = axios.create({
   baseURL: "http://localhost:3000",
 })
 
-export const createUser = async (user : User) =>{
+api.interceptors.request.use((config) => {
+  if(typeof window !== 'undefined'){
+    const token = window.localStorage.getItem('token');
+    if(token){
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+  }
+
+  return config;
+});
+
+export const getUser = async() => {
+  try{
+    const res = await api.get("usuario");
+    console.log(res)
+    return res.data;
+  }catch(e){
+    console.log(e);
+  }
+}
+
+export const createUser = async (user : User) => {
   try{
     const res = await api.post("usuario", user);
     return res.data;
   }catch(e){
     console.log(e);
+    if(e instanceof AxiosError && e.response?.data.message === "Este e-mail já está sendo usado."){
+      toast.error("Este e-mail já está sendo usado.");
+    }
+    console.log(e);
   }
 }
 
-export const getUser = async (id: number) => {
+export const requestLogin = async(login_info: LoginInfo) => {
   try{
-    const res = await api.get(`usuario/${id}`);
+    const res = await api.post("login", login_info);
     return res.data;
   }catch(e){
     console.log(e);
   }
 }
 
-export const updateUser = async (user: Partial<User>, id:number) => {
+export const updateUser = async (user: Partial<User>) => {
   try{
     for(const key in user){
       if(user[key as keyof User] === null || user[key as keyof User] === undefined){
         delete user[key as keyof User];
       }
     }
-    const res = await api.patch(`usuario/${id}`, user);
+    const res = await api.patch(`usuario/`, user);
     return res.data;
   }catch(e){
     console.log(e);
   }
 }
  
-export const deleteUser = async (id: number) => {
+export const deleteUser = async () => {
   try{
-    const res = await api.delete(`usuario/${id}`);
+    const res = await api.delete(`usuario/`);
     return res.data;
   }catch(e){
     console.log(e);
@@ -183,4 +210,3 @@ export const getComentario = async (id: number) => {
     console.log(e);
   }
 }
-
