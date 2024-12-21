@@ -3,29 +3,32 @@ import Image from "next/image";
 import ModalComentario from "./Modal-comentario";
 import { loggedInContext } from "@/providers/loggedIn";
 import { useState, useContext } from "react";
-// excluir
+import ModalConfirmarExcluir from "./ModalConfirmarExcluir";
 import { Comentario } from "@/types/Comentario";
 import { Avaliacao } from "@/types/Avaliacao";
+import { deleteAvaliacao } from "@/utils/api";
+import Link from "next/link";
 
 const Publicacao = (props: {avaliacao: Avaliacao}) => {
 
     const {loggedIn} = useContext(loggedInContext);
     const [showModalComentario, setShowModalComentario] = useState(false);
     const [excluirComentario, setExcluirComentario] = useState(false);
+    console.log(props.avaliacao.user.id);
 
     return (
         <>
-        {/* {showModalComentario && (
+        {showModalComentario && (
         <ModalComentario 
           onClose={() => setShowModalComentario(false)} 
           onComentarioAdd={(newComentario: Comentario) => setComentarios((prev) => [newComentario, ...prev])}
           avaliacaoId={Number(id)}
           />            
-        )*/}
+        )}
          
 
       {excluirComentario && (
-        <ModalExcluirComentario onClose={() => setExcluirComentario(false)} />
+        <ModalConfirmarExcluir onClose={() => setExcluirComentario(false)} onConfirm={() => {deleteAvaliacao(props.avaliacao.id)}} />
       )}
 
       <div className=" text-black post bg-color1 p-4 rounded-lg my-4">
@@ -33,25 +36,25 @@ const Publicacao = (props: {avaliacao: Avaliacao}) => {
           <Image
             width={10}
             height={10}
-            src="/profile-picture.webp"
+            src="/media/profile_pic.svg"
             alt="Avatar"
             className="post-avatar w-10 h-10 rounded-full mr-3"
           />
           <span className="post-info text-sm text-black">
-            <span className="user-name text-lg">{props.nome}</span>
+            <span className="user-name text-lg">{props.avaliacao.user.nome}</span>
             <br />
-            <span className="professor">{props.professor}</span> -{" "}
-            <span className="disciplina">{props.materia}</span>
+            <span className="professor">{props.avaliacao.professor.nome}</span> -{" "}
+            <span className="disciplina">{props.avaliacao.disciplina.nome}</span>
           </span>
         </div>
-        <p className="post-text my-4 text-black">{props.conteudo}</p>
+        <p className="post-text my-4 text-black">{props.avaliacao.conteudo}</p>
         <div className="flex justify-between post-footer text-sm ">
-          <a href="/Post">
+          <Link href="/Post">
             <div className="hover:underline cursor-pointer">2 comentários</div>
-          </a>
+          </Link>
 
           {/* Acoes de postagem para LOGADO */}
-          {loggedIn ? (
+          {loggedIn && (loggedIn == props.avaliacao.user.id) ? (
             <div className="mx-4 flex">
               <div
                 onClick={() => setShowModalComentario(true)}
@@ -65,20 +68,20 @@ const Publicacao = (props: {avaliacao: Avaliacao}) => {
                   className="cursor-pointer rounded-sm hover:bg-blue-400"
                 ></Image>
               </div>
-              <div className="deletar-post mx-4">
-                <button onClick={() => setExcluirComentario(true)}>
-                  <Image
-                    width={20}
-                    height={20}
-                    src="/icon-lixeira.png"
-                    alt="deletar-post"
-                    className="cursor-pointer rounded-sm hover:bg-blue-400"
-                  ></Image>
-                </button>
-              </div>
+                <div className="deletar-post mx-4">
+                  <button onClick={() => setExcluirComentario(true)}>
+                    <Image
+                      width={20}
+                      height={20}
+                      src="/icon-lixeira.png"
+                      alt="deletar-post"
+                      className="cursor-pointer rounded-sm hover:bg-blue-400"
+                    ></Image>
+                  </button>
+                </div>
             </div>
           ) : (
-            <div></div>
+            <></>
           )}
         </div>
       </div>

@@ -5,7 +5,6 @@ import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { getProfessor} from '@/utils/api';
 import ModalAvaliacao from '@/components/Modal-avaliacao';
-import { getAvaliacoes } from '@/utils/api';
 import Publicacao from '@/components/Post';
 import { Avaliacao } from '@/types/Avaliacao';
 import { Professor as Prof } from '@/types/Professor';
@@ -25,9 +24,9 @@ export default function Professor() {
       if(data){
         setProfessor(data);
         setAvaliacoes(data.avaliacoes);
-      }
+     }
     });
-  }, [id]);
+  }, [id, avaliacoes]);
 
   return (  
     <>
@@ -78,14 +77,7 @@ export default function Professor() {
 
         {avaliacoes.length > 0 ? (
           avaliacoes.map((avaliacao, index) => (
-            <Publicacao
-              key={index}
-              id={avaliacao.userId}
-              nome={avaliacao.nome}
-              professor={avaliacao.professor}
-              materia={avaliacao.disciplina}
-              conteudo={avaliacao.conteudo} />
-          ))
+            <Publicacao avaliacao={avaliacao} key={index}/>))
         ) : (
           <p className="text-center m-4 text-gray-500">Nenhuma avaliação encontrada...</p>
         )}

@@ -39,7 +39,7 @@ const LoginCadastro: React.FC = () => {
 
       const response = await requestLogin({email, senha});
       if(response){
-        login(response.access_token);
+        login(response);
         toast.success("Logado com sucesso!");
         redirect("/");
       }else{
@@ -66,7 +66,7 @@ const LoginCadastro: React.FC = () => {
 
         const login_response = await requestLogin({email, senha}); 
         if(login_response){
-          login(login_response.access_token);
+          login(login_response);
           redirect("/");
         }else{
           toast.error("Erro ao logar, mas conta criada!");
