@@ -8,6 +8,7 @@ import { useParams } from 'next/navigation';
 import { getUser } from '@/utils/api';
 import { getAvaliacoes } from '@/utils/api';
 import { Avaliacao } from '@/types/Avaliacao';
+import { deleteUser } from '@/utils/api';
 
 export default function Perfil() {
   const {id} = useParams(); // Obtem o id do usuario;
@@ -20,7 +21,7 @@ export default function Perfil() {
     email: "",
     departamento: "",
   });
-
+  
   // Busca as avaliacoes do usuario ao montar o componente
   useEffect(() => {
     const fetchAvaliacoes = async () => {
@@ -46,27 +47,42 @@ export default function Perfil() {
 
   // Busca os dados do usuario ao montar o componente
   useEffect(() => {
-    const fetchUsuario = async () => {
-      try {
-      if (id) {
-        const data = await getUser(Number(id)); // Certifique-se de que o ID seja um número
+    if (id) {
+      getUser(Number(id)).then((data) => {
         if (data) {
           setUsuario(data);
         }
-      } 
-    } catch (e) {
-        console.error("Erro ao buscar usuário:", e);
-      }
-    };
+      }).catch((error) => {
+        console.error("Erro ao buscar usuário:", error);
+      });
+    }
+  }, [id]); // id como dependencia
 
-  fetchUsuario();
-  }, [id]);
+  // DELETA O USUARIO 
+  const handleDeleteUser = async () => {
+    const confirmDelete = window.confirm("Tem certeza que deseja excluir seu perfil? Esta ação é irreversível!");
+    if (!confirmDelete) return;
+
+    try {
+      const deletedUser = await deleteUser(Number(id));
+      if (deletedUser) {
+        alert("Usuário deletado com sucesso!");
+        window.location.href = "./";
+      } else {
+        alert('Erro ao deletar usuário');
+      }
+    } catch (error) {
+      console.error("Erro ao deletar usuário", error);
+    }
+  };
 
     // TESTE DE DADOS
     useEffect(() => {
       console.log(usuario);
       console.log(avaliacoes);
     })
+
+
   return (  
     <>
     {showModalPerfil ? (
@@ -107,7 +123,11 @@ export default function Perfil() {
             className="edit-btn py-2 px-5 bg-green-700 rounded-lg cursor-pointer hover:bg-green-800">
             Editar Perfil
           </button>
-          <button className="delete-btn py-2 px-5 bg-red-600 rounded-lg cursor-pointer hover:bg-red-800">Excluir Perfil</button>
+          <button 
+            onClick={() => handleDeleteUser()}
+            className="delete-btn py-2 px-5 bg-red-600 rounded-lg cursor-pointer hover:bg-red-800">
+            Excluir Perfil
+          </button>
         </div>
       
       ) : (<div></div>)}
