@@ -1,30 +1,44 @@
 import React from "react";
 import Image from "next/image";
-import ModalComentario from "./Modal-comentario";
 import { loggedInContext } from "@/providers/loggedIn";
 import { useState, useContext } from "react";
 import ModalConfirmarExcluir from "./ModalConfirmarExcluir";
 import { Comentario } from "@/types/Comentario";
 import { Avaliacao } from "@/types/Avaliacao";
 import { deleteAvaliacao } from "@/utils/api";
+import ModalEditarAvaliacao from "./Modal-editar-avaliacao";
 import Link from "next/link";
 
 const Publicacao = (props: {avaliacao: Avaliacao}) => {
 
     const {loggedIn} = useContext(loggedInContext);
-    const [showModalComentario, setShowModalComentario] = useState(false);
+    const [showModalEditarAvaliacao, setShowModalEditarAvaliacao] = useState(false);
     const [excluirComentario, setExcluirComentario] = useState(false);
-    console.log(props.avaliacao.user.id);
+
+
+    const [avaliacao, setAvaliacao] = useState({
+      nome: "",
+      materia: "",
+      professor: "",
+      data: "",
+      conteudo: "",
+      userId: 0,
+      disciplina: "",
+      professorId: 0,
+    });
 
     return (
         <>
-        {showModalComentario && (
-        <ModalComentario 
-          onClose={() => setShowModalComentario(false)} 
-          onComentarioAdd={(newComentario: Comentario) => setComentarios((prev) => [newComentario, ...prev])}
-          avaliacaoId={Number(id)}
-          />            
-        )}
+        {/*showModalEditarAvaliacao && (
+      <ModalEditarAvaliacao 
+        onClose={() => setShowModalEditarAvaliacao(false)} 
+        avaliacao={avaliacao}
+        onUpdate={(updatedAvaliacao: Avaliacao) =>
+          setAvaliacao((prev => ({ ...prev, ...updatedAvaliacao })))
+        } 
+      ></ModalEditarAvaliacao>
+    )*/}
+    
          
 
       {excluirComentario && (
@@ -57,7 +71,7 @@ const Publicacao = (props: {avaliacao: Avaliacao}) => {
           {loggedIn && (loggedIn == props.avaliacao.user.id) ? (
             <div className="mx-4 flex">
               <div
-                onClick={() => setShowModalComentario(true)}
+                onClick={() => setShowModalEditarAvaliacao(true)}
                 className="editar-post"
               >
                 <Image

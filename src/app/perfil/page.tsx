@@ -18,7 +18,9 @@ export default function Perfil() {
   const {loggedIn, logout} = useContext(loggedInContext);
   const [avaliacoes, setAvaliacoes] = useState<Avaliacao[]>([]);
   const [usuario, setUsuario] = useState<User | null>(null);
+  console.log(avaliacoes)
 
+  // Busca as avaliacoes do usuario ao montar o componente
   useEffect(() => {
     getUser().then((response) => {
       if(response){
@@ -26,7 +28,7 @@ export default function Perfil() {
         setAvaliacoes(response.avaliacoes);
       }
     });
-  }, []);
+  }, [avaliacoes]);
 
   return (  
     <>

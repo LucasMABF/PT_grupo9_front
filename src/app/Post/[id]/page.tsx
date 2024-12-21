@@ -5,19 +5,21 @@ import ModalComentario from "@/components/Modal-comentario";
 import ComponentComentario from "@/components/Comentario";
 import { useState, useContext, useEffect } from "react";
 import { getAvaliacao } from "@/utils/api";
+import { Avaliacao } from "@/types/Avaliacao";
 import { useParams } from "next/navigation";
 import { Comentario } from "@/types/Comentario";
 import { getComentarios } from "@/utils/api";
-// excluir modal
+import ModalExcluirAvaliacao from "@/components/Modal-excluir-avaliacao";
+import ModalEditarAvaliacao from "@/components/Modal-editar-avaliacao";
 
 export default function Post() {
   const {id} = useParams(); // Obtem o id do user da avaliacao
   const [showButtonComments, setShowButtonComments] = useState(false);
   const { loggedIn } = useContext(loggedInContext);
-  const [excluirComentario, setExcluirComentario] = useState(false);
+  const [excluirAvaliacao, setExcluirAvaliacao] = useState(false);
   const [showModalComentario, setShowModalComentario] = useState(false);
   const [comentarios, setComentarios] = useState<Comentario[]>([]);
-
+  const [showModalEditarAvaliacao, setShowModalEditarAvaliacao] = useState(false);
   const [avaliacao, setAvaliacao] = useState({
     nome: "",
     materia: "",
@@ -28,6 +30,9 @@ export default function Post() {
     },
     data: "",
     conteudo: "",
+    userId: 0,
+    disciplina: "",
+    professorId: 0,
   });
 
   // Busca os dados dos comentarios ao montar o componente
@@ -62,6 +67,16 @@ export default function Post() {
 
   return (
     <>
+    {showModalEditarAvaliacao && (
+      <ModalEditarAvaliacao 
+        onClose={() => setShowModalEditarAvaliacao(false)} 
+        avaliacao={avaliacao}
+        onUpdate={(updatedAvaliacao: Avaliacao) =>
+          setAvaliacao((prev => ({ ...prev, ...updatedAvaliacao })))
+        } 
+      ></ModalEditarAvaliacao>
+    )}
+    
       {showModalComentario && (
         <ModalComentario 
           onClose={() => setShowModalComentario(false)} 
@@ -70,8 +85,8 @@ export default function Post() {
           />
       )}
 
-      {excluirComentario && (
-        <ModalExcluirComentario onClose={() => setExcluirComentario(false)} />
+      {excluirAvaliacao && (
+        <ModalExcluirAvaliacao onClose={() => setExcluirAvaliacao(false)} />
       )}
 
       {/* botao de voltar */}
@@ -116,27 +131,29 @@ export default function Post() {
             </div>
 
             <span className="post-info text-sm text-black">
-              <span className="data">23/12/2024</span>, às{" "}
-              <span className="hora">21:42</span> -{" "}
+              <span className="data">{avaliacao.data}</span>
               <span className="professor">{avaliacao.professor.nome} professor</span> -{" "}
               <span className="disciplina">{avaliacao.materia} disciplina</span>
             </span>
 
-
-
-
+          <div className="text-gray-900 py-5 conteudo">
+            <p>{avaliacao.conteudo} Conteudo da avaliacao lorem ipsum is a great way to inteact with a random text.</p>
+          </div>
+            
             <div className="w-full text-black flex justify-between">
               <button
                 className="hover:underline cursor-pointer "
                 onClick={() => setShowButtonComments(!showButtonComments)}
               >
-                {showButtonComments ? "Ocultar comentários" : "2 comentários"}
+                {showButtonComments ? "Ocultar comentários" : "Ver comentários"}
               </button>
 
               {/*Implementando função de logado e deslogado */}
               {loggedIn && (
                 <div className="flex gap-4">
-                  <button onClick={() => setShowModalComentario(true)}>
+                  <button className="ADICIONAR-COMENTARIO w-7 h-7 text-x1 border-black rounded-full border-2 hover:bg-blue-400" onClick={() => setShowModalComentario(true)}>+</button>
+                  
+                  <button onClick={() => setShowModalEditarAvaliacao(true)}>
                     <Image
                       width={20}
                       height={20}
@@ -145,7 +162,7 @@ export default function Post() {
                       className="cursor-pointer rounded-sm hover:bg-blue-400"
                     ></Image>
                   </button>
-                  <button onClick={() => setExcluirComentario(true)}>
+                  <button onClick={() => setExcluirAvaliacao(true)}>
                     <Image
                       width={20}
                       height={20}
@@ -172,8 +189,17 @@ export default function Post() {
                   />
                 ))
               ) : (
-                <div>Nenhum comentário encontrado.</div>
+                <div className="p-10 text-gray-400">Nenhum comentário encontrado...</div>
               )}
+
+              <ComponentComentario
+                key={1}
+                nome="nome"
+                data="data"
+                conteudo="conteudo do comentario"
+                />
+
+             
 
             </>
           )}

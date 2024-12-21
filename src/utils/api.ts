@@ -23,6 +23,7 @@ api.interceptors.request.use((config) => {
 export const getUser = async() => {
   try{
     const res = await api.get("usuario");
+    console.log(res)
     return res.data;
   }catch(e){
     console.log(e);
@@ -157,7 +158,9 @@ export const newComentario = async(comentario: Comentario) => {
     const res = await api.post("comentario", comentario);
     return res.data;
   }catch(e){
-    console.log(e);
+    console.error("Erro ao adicionar comentário", e);
+    throw e;
+
   }
 }
 
