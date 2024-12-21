@@ -9,14 +9,14 @@ import { Avaliacao } from "@/types/Avaliacao";
 import { useParams } from "next/navigation";
 import { Comentario } from "@/types/Comentario";
 import { getComentarios } from "@/utils/api";
-import ModalExcluirComentario from "@/components/Modal-Excluir-comentáio";
+import ModalExcluirAvaliacao from "@/components/Modal-excluir-avaliacao";
 import ModalEditarAvaliacao from "@/components/Modal-editar-avaliacao";
 
 export default function Post() {
   const {id} = useParams(); // Obtem o id do user da avaliacao
   const [showButtonComments, setShowButtonComments] = useState(false);
   const { loggedIn } = useContext(loggedInContext);
-  const [excluirComentario, setExcluirComentario] = useState(false);
+  const [excluirAvaliacao, setExcluirAvaliacao] = useState(false);
   const [showModalComentario, setShowModalComentario] = useState(false);
   const [comentarios, setComentarios] = useState<Comentario[]>([]);
   const [showModalEditarAvaliacao, setShowModalEditarAvaliacao] = useState(false);
@@ -83,12 +83,12 @@ export default function Post() {
           />
       )}
 
-      {excluirComentario && (
-        <ModalExcluirComentario onClose={() => setExcluirComentario(false)} />
+      {excluirAvaliacao && (
+        <ModalExcluirAvaliacao onClose={() => setExcluirAvaliacao(false)} />
       )}
 
       {/* botao de voltar */}
-      <a href="/perfil">
+      <a href={`/perfil/${avaliacao.userId}`}>
         <button className="back-button absolute w-12 h-12 rounded-full bg-green-700 flex justify-center items-center m-20 cursor-pointer shadow-lg hover:w-20 transition-all">
           <div className="w-2.5 h-2.5 border-l-2 border-t-2 border-black rotate-[-45deg] hover:border-blue-600"></div>
         </button>
@@ -161,7 +161,7 @@ export default function Post() {
                       className="cursor-pointer rounded-sm hover:bg-blue-400"
                     ></Image>
                   </button>
-                  <button onClick={() => setExcluirComentario(true)}>
+                  <button onClick={() => setExcluirAvaliacao(true)}>
                     <Image
                       width={20}
                       height={20}

@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { loggedInContext } from "@/providers/loggedIn";
 import { useState, useContext } from "react";
-import ModalExcluirComentario from "./Modal-Excluir-comentáio";
+import ModalExcluirComentario from "./Modal-excluir-avaliacao";
 import ModalEditarAvaliacao from "./Modal-editar-avaliacao";
 import { Avaliacao } from "@/types/Avaliacao";
 interface Props {
