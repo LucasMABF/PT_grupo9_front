@@ -138,6 +138,7 @@ export const updateAvaliacao = async (avaliacao: Partial<Avaliacao>, id: number)
       }
     }
     const res = await api.patch(`avaliacao/${id}`, avaliacao);
+    console.log(res);
     return res.data;
   }catch(e){
     console.log(e);

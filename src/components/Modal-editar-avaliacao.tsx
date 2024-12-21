@@ -7,19 +7,19 @@ import { updateAvaliacao } from '@/utils/api';
 interface ModalEditarAvaliacaoProps {
     onClose: () => void;
     avaliacao: Avaliacao;
-    onUpdate: (updateAvaliacao: Avaliacao) => void;
+    // onUpdate: (updateAvaliacao: Avaliacao) => void;
     
 }
 
-const ModalEditarAvaliacao: React.FC<ModalEditarAvaliacaoProps> = ({ onClose, avaliacao, onUpdate }) => {
+const ModalEditarAvaliacao: React.FC<ModalEditarAvaliacaoProps> = ({ onClose, avaliacao}) => {
     
     const [conteudo, setConteudo] = useState(avaliacao.conteudo);
 
     const handleEditarAvaliacao = async () => {
         try {
-            const updatedAvaliacao = await updateAvaliacao({ conteudo }, avaliacao.professorId);
-            if (updatedAvaliacao) {
-                onUpdate({ ...avaliacao, conteudo }); //atualiza o conteudo localmente 
+            const response = await updateAvaliacao({ conteudo }, avaliacao.id);
+            console.log(response);
+            if (response) {
                 onClose();
             }
         }
@@ -28,10 +28,6 @@ const ModalEditarAvaliacao: React.FC<ModalEditarAvaliacaoProps> = ({ onClose, av
         }
     };
         
-    // TESTE DE DADOS   
-    useEffect(() => {
-        console.log(avaliacao);
-    })
     return (
         <Fragment>
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">

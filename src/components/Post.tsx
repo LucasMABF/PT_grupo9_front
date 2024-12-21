@@ -16,28 +16,14 @@ const Publicacao = (props: {avaliacao: Avaliacao}) => {
     const [excluirComentario, setExcluirComentario] = useState(false);
 
 
-    const [avaliacao, setAvaliacao] = useState({
-      nome: "",
-      materia: "",
-      professor: "",
-      data: "",
-      conteudo: "",
-      userId: 0,
-      disciplina: "",
-      professorId: 0,
-    });
-
     return (
         <>
-        {/*showModalEditarAvaliacao && (
+        {showModalEditarAvaliacao && (
       <ModalEditarAvaliacao 
         onClose={() => setShowModalEditarAvaliacao(false)} 
-        avaliacao={avaliacao}
-        onUpdate={(updatedAvaliacao: Avaliacao) =>
-          setAvaliacao((prev => ({ ...prev, ...updatedAvaliacao })))
-        } 
+        avaliacao={props.avaliacao}
       ></ModalEditarAvaliacao>
-    )*/}
+    )}
     
          
 
