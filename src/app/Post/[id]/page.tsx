@@ -191,6 +191,15 @@ export default function Post() {
                 <div className="p-10 text-gray-400">Nenhum comentário encontrado...</div>
               )}
 
+              <ComponentComentario
+                key={1}
+                nome="nome"
+                data="data"
+                conteudo="conteudo do comentario"
+                />
+
+             
+
             </>
           )}
         </div>
