@@ -1,20 +1,15 @@
 /*CRIA UMA NOVA AVALIACAO*/
 "use client";
-import React, { useEffect } from 'react';
+import React from 'react';
 import { newAvaliacao } from '@/utils/api'
+import { Professor } from '@/types/Professor';
+import { toast } from 'react-toastify';
 
 interface ModalAvaliacaoProps {
-    professorId: number;
-    disciplinas: { id: number; nome: string }[];
-    userId: number;
+    professor: Professor;
     onClose: () => void;
 }
-const ModalAvaliacao: React.FC<ModalAvaliacaoProps> = ({ 
-    professorId,
-    disciplinas,
-    userId,
-    onClose,
- }) => {
+const ModalAvaliacao = (props: ModalAvaliacaoProps) => {
 
     const [disciplinaId, setDisciplinaId] = React.useState<number | null>(null);
     const [conteudo, setConteudo] = React.useState<string>("");
@@ -23,37 +18,24 @@ const ModalAvaliacao: React.FC<ModalAvaliacaoProps> = ({
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault(); // Evita o reload da página
         if (!disciplinaId || !conteudo.trim()) {
-        alert("Por favor, preencha todos os campos.");
-        return;
+            toast.error("Por favor, preencha todos os campos.");
+            return;
         }
 
-    const avaliacao = {
-        userId,
-        conteudo,
-        disciplinaId,
-        professorId,
-        nome: "Nome do aluno", // Replace with the actual name if available
-        disciplina: disciplinas.find(d => d.id === disciplinaId)?.nome || "",
-        professor: "Nome do professor" // Replace with the actual professor name if available
-    };
+        const avaliacao = {
+            conteudo,
+            disciplinaId,
+            professorId: props.professor.id,
+        };
 
-    try {
-        await newAvaliacao(avaliacao);
-      alert("Avaliação enviada com sucesso!");
-      onClose(); // Fecha o modal após o envio
-    } catch (e) {
-      console.error("Erro ao enviar a avaliação:", e);
-      alert("Erro ao enviar a avaliação. Tente novamente.");
+        const response = await newAvaliacao(avaliacao);
+        if(response){
+            toast.success("Avaliação enviada com sucesso!");
+            props.onClose(); // Fecha o modal após o envio
+        }else{
+            toast.error("Erro ao enviar a avaliação. Tente novamente.");
+        }
     }
-
-   
-    }
-    // VERIFICA SE OS DADOS ESTAO SENDO PASSADOS CORRETAMENTE
-    useEffect(() => {
-        console.log("Professor ID:", professorId);
-        console.log("Disciplinas:", disciplinas);
-        console.log("User ID:", userId);
-    })
 
     return (
         <>
@@ -69,11 +51,11 @@ const ModalAvaliacao: React.FC<ModalAvaliacaoProps> = ({
                             Selecione a disciplina
                         </option>
                         
-                        {disciplinas && disciplinas.map((disciplina) => (
+                        {props.professor.disciplinas && props.professor.disciplinas.map((disciplina) => (
                             <option key={disciplina.id} value={disciplina.id}>
-                            {disciplina.nome}
+                                {disciplina.nome}
                             </option>
-                              ))}
+                        ))}
                               
                 </select>
                 
@@ -88,7 +70,7 @@ const ModalAvaliacao: React.FC<ModalAvaliacaoProps> = ({
                  {/* BOTOES DE ACAO */}
                     <div className="container-footer flex justify-end items-end">
                         <div className="-mr-96 flex">
-                            <div onClick = {onClose} className="cancel py-2 px-6 tracking-wider border-2 border-green-700 rounded-lg hover:border-green-600" >
+                            <div onClick = {props.onClose} className="cancel py-2 px-6 tracking-wider border-2 border-green-700 rounded-lg hover:border-green-600" >
                                 Cancelar
                             </div>
                             <button 

@@ -8,7 +8,7 @@ import { getAvaliacao } from "@/utils/api";
 import { useParams } from "next/navigation";
 import { Comentario } from "@/types/Comentario";
 import { getComentarios } from "@/utils/api";
-import ModalExcluirComentario from "@/components/Modal-Excluir-comentáio";
+// excluir modal
 
 export default function Post() {
   const {id} = useParams(); // Obtem o id do user da avaliacao

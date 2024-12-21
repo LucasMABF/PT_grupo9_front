@@ -3,17 +3,11 @@ import Image from "next/image";
 import ModalComentario from "./Modal-comentario";
 import { loggedInContext } from "@/providers/loggedIn";
 import { useState, useContext } from "react";
-import ModalExcluirComentario from "./Modal-Excluir-comentáio";
+// excluir
+import { Comentario } from "@/types/Comentario";
+import { Avaliacao } from "@/types/Avaliacao";
 
-interface Props {
-
-  id: number,
-  nome: string
-  professor: string
-  materia: string
-  conteudo: string
-}
-const Publicacao = (props: Props) => {
+const Publicacao = (props: {avaliacao: Avaliacao}) => {
 
     const {loggedIn} = useContext(loggedInContext);
     const [showModalComentario, setShowModalComentario] = useState(false);
@@ -21,13 +15,13 @@ const Publicacao = (props: Props) => {
 
     return (
         <>
-        {showModalComentario && (
+        {/* {showModalComentario && (
         <ModalComentario 
           onClose={() => setShowModalComentario(false)} 
           onComentarioAdd={(newComentario: Comentario) => setComentarios((prev) => [newComentario, ...prev])}
           avaliacaoId={Number(id)}
           />            
-        )}
+        )*/}
          
 
       {excluirComentario && (

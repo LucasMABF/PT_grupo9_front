@@ -6,7 +6,7 @@ import { createUser } from '@/utils/api';
 import { User } from '@/types/User';
 import { requestLogin } from '@/utils/api';
 import { redirect } from 'next/navigation';
-import { toast, Bounce } from 'react-toastify';
+import { toast} from 'react-toastify';
 
 const LoginCadastro: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -16,7 +16,7 @@ const LoginCadastro: React.FC = () => {
   const [senha, setSenha] = useState("");
   const [curso, setCurso] = useState("");
   const [departamento, setDepartamento] = useState("");
-  const {loggedIn, login, logout} = useContext(loggedInContext);
+  const {login} = useContext(loggedInContext);
 
   const toggleMode = () => {
     setIsLogin(!isLogin);

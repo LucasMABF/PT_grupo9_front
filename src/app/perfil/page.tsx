@@ -4,81 +4,39 @@ import Publicacao from '@/components/Post';
 import ModalPerfil from '@/components/Modal-perfil';
 import { loggedInContext } from "@/providers/loggedIn";
 import { useState, useContext, useEffect } from 'react';
-import { useParams } from 'next/navigation';
 import { getUser } from '@/utils/api';
-import { getAvaliacoes } from '@/utils/api';
 import { Avaliacao } from '@/types/Avaliacao';
+import { User } from '@/types/User';
+import ModalConfirmarExcluir from '@/components/ModalConfirmarExcluir';
+import { deleteUser } from '@/utils/api';
+import { redirect } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 export default function Perfil() {
-  const {id} = useParams(); // Obtem o id do usuario;
   const [showModalPerfil, setShowModalPerfil] = useState(false);
-  const {loggedIn} = useContext(loggedInContext);
+  const [showModalExcluir, setShowModalExcluir] = useState(false);
+  const {loggedIn, logout} = useContext(loggedInContext);
   const [avaliacoes, setAvaliacoes] = useState<Avaliacao[]>([]);
-  const [usuario, setUsuario] = useState({
-    nome: "",
-    curso: "",
-    email: "",
-    departamento: "",
-  });
+  const [usuario, setUsuario] = useState<User | null>(null);
 
-  // Busca as avaliacoes do usuario ao montar o componente
   useEffect(() => {
-    const fetchAvaliacoes = async () => {
-      try {
-          if (id) {
-            const response = await getAvaliacoes({
-              limit: 5,
-              order_field: "updatedAt",
-              order: "desc",
-            });
-            if (response) {
-              // Filtrar avaliacoes apenas do usuario
-              const userAvaliacoes = response.filter((avaliacao: Avaliacao) => avaliacao.userId === Number(id));
-              setAvaliacoes(userAvaliacoes);
-            }
-          }
-      } catch (e) {
-        console.error("Erro ao buscar avaliações:", e);
+    getUser().then((response) => {
+      if(response){
+        setUsuario(response);
+        setAvaliacoes(response.avaliacoes);
       }
-    };
-    fetchAvaliacoes();
-  }, [id]);
+    });
+  }, []);
 
-  // Busca os dados do usuario ao montar o componente
-  useEffect(() => {
-    const fetchUsuario = async () => {
-      try {
-      if (id) {
-        const data = await getUser(Number(id)); // Certifique-se de que o ID seja um número
-        if (data) {
-          setUsuario(data);
-        }
-      } 
-    } catch (e) {
-        console.error("Erro ao buscar usuário:", e);
-      }
-    };
-
-  fetchUsuario();
-  }, [id]);
-
-    // TESTE DE DADOS
-    useEffect(() => {
-      console.log(usuario);
-      console.log(avaliacoes);
-    })
   return (  
     <>
     {showModalPerfil ? (
-      <ModalPerfil 
-      onClose={() => setShowModalPerfil(false)}
-      usuarioId={Number(id)}
-      nome={usuario.nome}
-      email={usuario.email}
-      departamento={usuario.departamento}
-      curso={usuario.curso}
-      ></ModalPerfil>
-    ) : (<div></div>)}
+      <ModalPerfil onClose={() => setShowModalPerfil(false)} />
+    ) : (<></>)}
+
+    {showModalExcluir ? (
+    <ModalConfirmarExcluir onClose={() => setShowModalExcluir(false)} onConfirm={() => {deleteUser().then(() => {logout(); toast.success("Conta apagada com sucesso."); redirect("/")})}}/>
+    ): <></>}
     
     <div className=" body font-arial bg-green1 text-gray-800 m-0 p-0">
     
@@ -94,10 +52,9 @@ export default function Perfil() {
       <div className="profile-header text-center my-0.5">
 
         <Image width={100} height={20} src="/unb-banner.jpg" alt="banner" className="profile-banner w-full h-52"></Image>
-        <Image height={500} width= {500} src="/profile-picture.webp" alt="Avatar" className="profile-pic w-52 h-52 rounded-full border-4 border-color2 bg-green-200 -mt-28 mx-auto" />
-        <h1 className="my-2.5 text-2xl font-bold">{usuario.nome} nome</h1>
-        <p className="my-2 text-base">{usuario.curso} curso / {usuario.departamento}depto</p>
-        <p className="my-2 text-base">{usuario.email} email</p>
+        <Image height={500} width= {500} src="media//profile_pic.svg" alt="Avatar" className="profile-pic w-52 h-52 rounded-full border-4 border-color2 bg-green-200 -mt-28 mx-auto" />
+        <h1 className="my-2.5 text-2xl font-bold">{usuario? usuario.nome : "Nome"}</h1>
+        <p className="my-2 text-base">{usuario? usuario.curso : "Curso"} / {usuario? usuario.departamento : "Depto"}</p>
       
       {/* Acoes de perfil para LOGADO */}
       {loggedIn ? (
@@ -107,36 +64,27 @@ export default function Perfil() {
             className="edit-btn py-2 px-5 bg-green-700 rounded-lg cursor-pointer hover:bg-green-800">
             Editar Perfil
           </button>
-          <button className="delete-btn py-2 px-5 bg-red-600 rounded-lg cursor-pointer hover:bg-red-800">Excluir Perfil</button>
+          <button onClick={() => setShowModalExcluir(true)} className="delete-btn py-2 px-5 bg-red-600 rounded-lg cursor-pointer hover:bg-red-800">Excluir Perfil</button>
         </div>
       
-      ) : (<div></div>)}
+      ) : (<></>)}
         </div>
 
       {/* publicacoes */}
       <div className="post-section mt-4 p-4 min-h-96">
         <hr/>
-        <h4 className="my-4">Publicações</h4>
+        <h4 className="my-4">Avaliações</h4>
 
         {avaliacoes.length > 0 ? (
-          avaliacoes.map((avaliacao, index) => (
-            <Publicacao
-              key={index}
-              id={avaliacao.userId}
-              nome={avaliacao.nome}
-              professor={avaliacao.professor}
-              materia={avaliacao.disciplina}
-              conteudo={avaliacao.conteudo} 
-              />
+          avaliacoes.map((avaliacao: Avaliacao) => (
+            <Publicacao avaliacao={avaliacao} key={avaliacao.id}/>
           ))
         ) : (
           <p className="mx-4 my-10 text-gray-400">Ainda não há publicações...</p>
         ) }
-
       </div>
     </div>
   </div>
   </>
   )
 }
-
