@@ -129,8 +129,7 @@ export default function Post() {
             </div>
 
             <span className="post-info text-sm text-black">
-              <span className="data">23/12/2024</span>, às{" "}
-              <span className="hora">21:42</span> -{" "}
+              <span className="data">{avaliacao.data}</span>
               <span className="professor">{avaliacao.professor} professor</span> -{" "}
               <span className="disciplina">{avaliacao.materia} disciplina</span>
             </span>

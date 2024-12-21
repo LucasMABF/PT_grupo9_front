@@ -60,6 +60,7 @@ const Publicacao = (props: Props) => {
           <span className="post-info text-sm text-black">
             <span className="user-name text-lg">{props.nome}</span>
             <br />
+            <span className="data">{avaliacao.data} data</span>
             <span className="professor">{props.professor}</span> -{" "}
             <span className="disciplina">{props.materia}</span>
           </span>
