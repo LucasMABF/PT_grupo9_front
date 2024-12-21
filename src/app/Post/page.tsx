@@ -19,7 +19,7 @@ export default function Post() {
   const [excluirComentario, setExcluirComentario] = useState(false);
   const [showModalComentario, setShowModalComentario] = useState(false);
   const [comentarios, setComentarios] = useState<Comentario[]>([]);
-  const [showModalAvaliacao, setShowModalAvaliacao] = useState(false);
+  const [showModalEditarAvaliacao, setShowModalEditarAvaliacao] = useState(false);
   const [avaliacao, setAvaliacao] = useState({
     nome: "",
     materia: "",
@@ -65,9 +65,9 @@ export default function Post() {
 
   return (
     <>
-    {showModalAvaliacao && (
+    {showModalEditarAvaliacao && (
       <ModalEditarAvaliacao 
-        onClose={() => setShowModalAvaliacao(false)} 
+        onClose={() => setShowModalEditarAvaliacao(false)} 
         avaliacao={avaliacao}
         onUpdate={(updatedAvaliacao: Avaliacao) =>
           setAvaliacao((prev => ({ ...prev, ...updatedAvaliacao })))
@@ -153,7 +153,7 @@ export default function Post() {
                 <div className="flex gap-4">
                   <button className="ADICIONAR-COMENTARIO w-7 h-7 text-x1 border-black rounded-full border-2 hover:bg-blue-400" onClick={() => setShowModalComentario(true)}>+</button>
                   
-                  <button onClick={() => setShowModalAvaliacao(true)}>
+                  <button onClick={() => setShowModalEditarAvaliacao(true)}>
                     <Image
                       width={20}
                       height={20}
