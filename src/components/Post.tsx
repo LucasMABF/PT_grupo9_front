@@ -1,10 +1,10 @@
 import React from "react";
 import Image from "next/image";
-import ModalComentario from "./Modal-comentario";
 import { loggedInContext } from "@/providers/loggedIn";
 import { useState, useContext } from "react";
 import ModalExcluirComentario from "./Modal-Excluir-comentáio";
-
+import ModalEditarAvaliacao from "./Modal-editar-avaliacao";
+import { Avaliacao } from "@/types/Avaliacao";
 interface Props {
 
   id: number,
@@ -16,18 +16,32 @@ interface Props {
 const Publicacao = (props: Props) => {
 
     const {loggedIn} = useContext(loggedInContext);
-    const [showModalComentario, setShowModalComentario] = useState(false);
+    const [showModalEditarAvaliacao, setShowModalEditarAvaliacao] = useState(false);
     const [excluirComentario, setExcluirComentario] = useState(false);
+
+    const [avaliacao, setAvaliacao] = useState({
+      nome: "",
+      materia: "",
+      professor: "",
+      data: "",
+      conteudo: "",
+      userId: 0,
+      disciplina: "",
+      professorId: 0,
+    });
 
     return (
         <>
-        {showModalComentario && (
-        <ModalComentario 
-          onClose={() => setShowModalComentario(false)} 
-          onComentarioAdd={(newComentario: Comentario) => setComentarios((prev) => [newComentario, ...prev])}
-          avaliacaoId={Number(id)}
-          />            
-        )}
+        {showModalEditarAvaliacao && (
+      <ModalEditarAvaliacao 
+        onClose={() => setShowModalEditarAvaliacao(false)} 
+        avaliacao={avaliacao}
+        onUpdate={(updatedAvaliacao: Avaliacao) =>
+          setAvaliacao((prev => ({ ...prev, ...updatedAvaliacao })))
+        } 
+      ></ModalEditarAvaliacao>
+    )}
+    
          
 
       {excluirComentario && (
@@ -46,6 +60,7 @@ const Publicacao = (props: Props) => {
           <span className="post-info text-sm text-black">
             <span className="user-name text-lg">{props.nome}</span>
             <br />
+            <span className="data">{avaliacao.data} data</span>
             <span className="professor">{props.professor}</span> -{" "}
             <span className="disciplina">{props.materia}</span>
           </span>
@@ -60,7 +75,7 @@ const Publicacao = (props: Props) => {
           {loggedIn ? (
             <div className="mx-4 flex">
               <div
-                onClick={() => setShowModalComentario(true)}
+                onClick={() => setShowModalEditarAvaliacao(true)}
                 className="editar-post"
               >
                 <Image
