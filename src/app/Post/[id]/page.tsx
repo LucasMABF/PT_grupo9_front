@@ -88,7 +88,7 @@ export default function Post() {
       )}
 
       {/* botao de voltar */}
-      <a href="/perfil">
+      <a href={`/perfil/${avaliacao.userId}`}>
         <button className="back-button absolute w-12 h-12 rounded-full bg-green-700 flex justify-center items-center m-20 cursor-pointer shadow-lg hover:w-20 transition-all">
           <div className="w-2.5 h-2.5 border-l-2 border-t-2 border-black rotate-[-45deg] hover:border-blue-600"></div>
         </button>
